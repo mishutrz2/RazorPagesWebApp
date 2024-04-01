@@ -54,7 +54,7 @@ namespace TeamPickChatWebApp.Pages
             _sessionService.JoinSession(sessionGuid, name);
 
             // Redirect to the game room page with the session ID
-            return RedirectToPage("/GameRoom/Index", new { sessionId });
+            return RedirectToPage("/GameRoom/Index", new { SessionId = sessionId, PlayerName = name });
         }
     }
 }
