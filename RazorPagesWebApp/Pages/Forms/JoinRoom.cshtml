@@ -1,0 +1,48 @@
+﻿@page "/join"
+@model TeamPickChatWebApp.Pages.JoinRoomModel
+@{
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Form with Blurred Background</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  /* Additional styles if needed */
+  .bg-blur {
+    background-image: url('https://source.unsplash.com/featured/?nature');
+    background-size: cover;
+    background-position: center;
+    backdrop-filter: blur(8px);
+  }
+</style>
+</head>
+<body class="bg-blur flex items-center justify-center h-screen">
+  <div class="bg-white bg-opacity-80 rounded p-8 shadow-lg max-w-md mx-auto">
+    <form method="post" id="myForm" class="flex flex-col">
+            <label for="sessionId" class="text-lg font-semibold mb-2">Room:</label>
+            <input type="text" id="sessionId" name="sessionId" placeholder="Enter room number" class="mb-4 p-2 border rounded">
+
+      <label for="name" class="text-lg font-semibold mb-2">Name:</label>
+      <input type="text" id="name" name="name" placeholder="Enter your name" class="mb-6 p-2 border rounded">
+
+      <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        Join
+      </button>
+    </form>
+  </div>
+
+  @* <script>
+    document.getElementById('myForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const room = document.getElementById('room').value;
+      const name = document.getElementById('name').value;
+      alert('Room: ' + room + '\nName: ' + name);
+    });
+  </script> *@
+</body>
+</html>

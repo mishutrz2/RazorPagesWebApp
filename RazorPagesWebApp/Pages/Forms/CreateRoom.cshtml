@@ -1,0 +1,49 @@
+﻿@page
+@model RazorPagesWebApp.Pages.Forms.CreateRoomModel
+@{
+    ViewData["Title"] = "Create Room";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Football Form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Additional styles can be added here if needed */
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-4">
+    <div class="w-full max-w-lg">
+        <form method="post" id="footballForm" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <div class="mb-4">
+                <textarea asp-for="InputList" rows="8" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter players list here"></textarea>
+                <span asp-validation-for="InputList" class="text-danger"></span>
+            </div>
+            <div class="mb-4">
+                <label asp-for="NumberOfRepicks" class="block text-gray-700 text-sm font-bold mb-2">Number of repicks allowed</label>
+                <input asp-for="NumberOfRepicks" type="number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">
+                <span asp-validation-for="NumberOfRepicks" class="text-danger"></span>
+            </div>
+            <div class="flex items-center justify-between">
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    Create
+                </button>
+            </div>
+        </form>
+        <img src="https://source.unsplash.com/featured/?football" alt="Football Image" class="rounded shadow-md">
+    </div>
+
+    @* <script>
+        document.getElementById('footballForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const multilineValue = document.getElementById('multilineInput').value;
+            const integerValue = document.getElementById('integerInput').value;
+            const checkboxValue = document.getElementById('checkboxInput').checked;
+            alert('Form Submitted!\\nText: ' + multilineValue + '\\nNumber: ' + integerValue + '\\nCheckbox: ' + (checkboxValue ? 'Checked' : 'Not Checked'));
+        });
+    </script> *@
+</body>
+</html>

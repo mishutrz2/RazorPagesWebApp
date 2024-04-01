@@ -1,0 +1,19 @@
+﻿@page
+@model RazorPagesWebApp.Pages.RoomCreatedModel
+@{
+    ViewData["Title"] = "Room created successfully";
+
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Room created successfully</title>
+</head>
+<body>
+    <h1>Room was created successfully</h1>
+    <hr/>
+    <p>In order to access this room, use the following session id: </p>
+    <br/>
+    <p><b>@Model.RoomId</b></p>
+</body>
+</html>
