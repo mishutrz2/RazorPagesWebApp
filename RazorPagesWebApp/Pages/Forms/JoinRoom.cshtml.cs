@@ -38,6 +38,21 @@ namespace TeamPickChatWebApp.Pages
                 return RedirectToPage("/RoomNotFound");
             }
 
+            // If user is not on the list, reject their request
+            if (!_sessionService.IsNameOnTheList(sessionGuid, name))
+            {
+                return RedirectToPage("/UserNotAllowedInThisRoom");
+            }
+
+            // If user is already connected, reject their request
+            if (_sessionService.IsNameAlreadyInTheRoom(sessionGuid, name))
+            {
+                return RedirectToPage("/UserAlreadyInThisRoom");
+            }
+
+            // If everything is ok, connect the user to the room
+            _sessionService.JoinSession(sessionGuid, name);
+
             // Redirect to the game room page with the session ID
             return RedirectToPage("/GameRoom/Index", new { sessionId });
         }

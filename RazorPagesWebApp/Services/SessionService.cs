@@ -38,6 +38,8 @@ namespace RazorPagesWebApp.Services
 
         public bool JoinSession(Guid roomId, string playerName)
         {
+            playerName = playerName.ToLower();
+
             lock (_lock)
             {
                 var session = GetSession(roomId);
@@ -62,6 +64,41 @@ namespace RazorPagesWebApp.Services
             return false;
         }
 
+        public bool IsNameOnTheList(Guid roomId, string playerOrCaptainName)
+        {
+            playerOrCaptainName = playerOrCaptainName.ToLower();
+
+            lock (_lock)
+            {
+                var session = GetSession(roomId);
+                if (session != null)
+                {
+                    if (session.CreateRoomInputModel.Players.Contains(playerOrCaptainName) || session.CreateRoomInputModel.Captains.Contains(playerOrCaptainName))
+                    {
+                        return true;
+                    }
+                }
+                return false; // Session not found
+            }
+        }
+
+        public bool IsNameAlreadyInTheRoom(Guid roomId, string playerOrCaptainName)
+        {
+            playerOrCaptainName = playerOrCaptainName.ToLower();
+
+            lock (_lock)
+            {
+                var session = GetSession(roomId);
+                if (session != null)
+                {
+                    if (session.Players.Contains(playerOrCaptainName) || session.Captains.Contains(playerOrCaptainName))
+                    {
+                        return true;
+                    }
+                }
+                return false; // Session not found
+            }
+        }
 
         // methods used to remove expired sessions
         private async Task RemoveExpiredSessionsLoop()
