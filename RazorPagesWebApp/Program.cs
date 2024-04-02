@@ -1,3 +1,4 @@
+using RazorPagesWebApp.Hubs;
 using RazorPagesWebApp.Services;
 using RazorPagesWebApp.Services.Interfaces;
 
@@ -7,6 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<ISessionService, SessionService>();
 
 builder.Services.AddRazorPages();
+
+// Add SignalR
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -26,5 +30,8 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapRazorPages();
+
+// SignalR mapping
+app.MapHub<ChatHub>("/chatHub");
 
 app.Run();
