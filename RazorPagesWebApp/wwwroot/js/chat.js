@@ -2,14 +2,15 @@
 
 var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
-//Disable the send button until connection is established.
+// Disable the send button until connection is established.
 document.getElementById("sendButton").disabled = true;
 
-// get user avatar
+// Get user avatar
 var img_url = 'https://upload.wikimedia.org/wikipedia/commons/f/fb/Small_loadingspinner.svg';
 fetch('https://source.unsplash.com/random/100x100?face')
     .then(data => { img_url = data.url })
 
+// Function for scrolling to the bottom of the chat
 function scrollToBottom() {
     const chatParentContainer = document.getElementById('messagesListParent');
     chatParentContainer.scrollTop = chatParentContainer.scrollHeight;
@@ -37,8 +38,17 @@ connection.on("ReceiveMessage", function (user, message, received_img_url) {
 
 connection.start().then(function () {
     document.getElementById("sendButton").disabled = false;
+
+    connection.invoke("JoinSession", sessionId)
+        .catch(err => console.error(err));
+
 }).catch(function (err) {
     return console.error(err.toString());
+});
+
+// Event handler for when a user joins the session
+connection.on("UserJoined", (connectionId) => {
+    console.log("User joined:", connectionId);
 });
 
 document.getElementById('sendButton').addEventListener('click', function (event) {
@@ -47,7 +57,7 @@ document.getElementById('sendButton').addEventListener('click', function (event)
     const messageText = messageInput.value.trim();
 
     if (messageText) {
-        connection.invoke("SendMessage", user, messageText, img_url).catch(function (err) {
+        connection.invoke("SendMessage", sessionId, user, messageText, img_url).catch(function (err) {
             return console.error(err.toString());
         });
         event.preventDefault();
