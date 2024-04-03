@@ -1,12 +1,15 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using RazorPagesWebApp.Models;
 using RazorPagesWebApp.Services.Interfaces;
 
 namespace RazorPagesWebApp.Pages.GameRoom
 {
     public class IndexModel : PageModel
     {
-        //private readonly ISessionService _sessionService;
+        private readonly ISessionService _sessionService;
+
+        public Session CurrentSession { get; set; }
 
         [BindProperty(SupportsGet = true)]
         public string SessionId { get; set; }
@@ -14,14 +17,21 @@ namespace RazorPagesWebApp.Pages.GameRoom
         [BindProperty(SupportsGet = true)]
         public string PlayerName { get; set; }
 
-        /*public IndexModel(ISessionService sessionService)
+
+        public IndexModel(ISessionService sessionService)
         {
             _sessionService = sessionService;
-        }*/
+        }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
+            CurrentSession = _sessionService.GetSession(new Guid(SessionId));
 
+            if (CurrentSession == null) {
+                return RedirectToPage("../RoomNotFound");
+            }
+
+            return Page();
         }
     }
 }

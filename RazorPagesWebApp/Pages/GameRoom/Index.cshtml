@@ -40,27 +40,28 @@
             <div class="bg-white p-4 rounded-lg shadow">
                 <h5 class="font-bold uppercase text-gray-600">Team 1</h5>
                 <ul class="mt-2">
-                    <li>Member 1</li>
-                    <li>Member 2</li>
-                    <li>Member 3</li>
-                </ul>
-            </div>
-            <div class="bg-white p-4 rounded-lg shadow">
-                <h5 class="font-bold uppercase text-gray-600">Team 2</h5>
-                <ul class="mt-2">
-                    <li>Member 1</li>
-                    <li>Member 2</li>
-                    <li>Member 3</li>
+                    @foreach (var teamOnePlayer in Model.CurrentSession.TeamOne)
+                    {
+                        <li>@teamOnePlayer</li>
+                    }
                 </ul>
             </div>
             <div class="bg-white p-4 rounded-lg shadow">
                 <h5 class="font-bold uppercase text-gray-600">Team 3</h5>
                 <ul class="mt-2">
-                    <li>Member 1</li>
-                    <li>Member 2</li>
-                    <li>Member 3</li>
-                    <li>Member 4</li>
-                    <li>Member 5</li>
+                    @foreach (var teamTwoPlayer in Model.CurrentSession.TeamTwo)
+                    {
+                        <li>@teamTwoPlayer</li>
+                    }
+                </ul>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow">
+                <h5 class="font-bold uppercase text-gray-600">Team 2</h5>
+                <ul class="mt-2">
+                    @foreach (var teamThreePlayer in Model.CurrentSession.TeamThree)
+                    {
+                        <li>@teamThreePlayer</li>
+                    }
                 </ul>
             </div>
         </div>
