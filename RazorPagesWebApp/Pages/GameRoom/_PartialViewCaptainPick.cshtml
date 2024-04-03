@@ -1,4 +1,6 @@
-﻿<html>
+﻿@model Models.Session
+
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,14 +19,10 @@
             <!-- Top List -->
             <div class="bg-white shadow-md rounded p-4 mb-6 w-full max-w-2xl">
                 <ul id="topList" class="list-inside">
-                    <li class="p-2 border-b">Element 1</li>
-                    <li class="p-2 border-b">Element 2</li>
-                    <li class="p-2 border-b">Element 3</li>
-                    <li class="p-2 border-b">Element 4</li>
-                    <li class="p-2 border-b">Element 5</li>
-                    <li class="p-2 border-b">Element 6</li>
-                    <li class="p-2 border-b">Element 7</li>
-                    <li class="p-2">Element 8</li>
+                    @foreach (var player in Model.CreateRoomInputModel.Players)
+                    {
+                        <li class="p-2 border-b">@player</li>
+                    }
                 </ul>
             </div>
 
@@ -33,9 +31,10 @@
                 <!-- Captain 1 -->
                 <div class="team bg-white shadow-md rounded p-4">
                     <div class="bg-gray-200 rounded-full w-16 h-16 flex items-center justify-center mb-4">
-                        <span class="text-lg font-bold">1C</span>
+                        <span class="text-lg font-bold">1</span>
                     </div>
                     <ul id="captain1List" class="list-inside">
+                        @Model.CreateRoomInputModel.Captains[0]
                         <!-- Elements chosen by Captain 1 will appear here -->
                     </ul>
                 </div>
@@ -43,9 +42,10 @@
                 <!-- Captain 2 -->
                 <div class="team bg-white shadow-md rounded p-4">
                     <div class="bg-gray-200 rounded-full w-16 h-16 flex items-center justify-center mb-4">
-                        <span class="text-lg font-bold">2C</span>
+                        <span class="text-lg font-bold">2</span>
                     </div>
                     <ul id="captain2List" class="list-inside">
+                        @Model.CreateRoomInputModel.Captains[1]
                         <!-- Elements chosen by Captain 2 will appear here -->
                     </ul>
                 </div>
@@ -53,9 +53,10 @@
                 <!-- Captain 3 -->
                 <div class="team bg-white shadow-md rounded p-4">
                     <div class="bg-gray-200 rounded-full w-16 h-16 flex items-center justify-center mb-4">
-                        <span class="text-lg font-bold">3C</span>
+                        <span class="text-lg font-bold">3</span>
                     </div>
                     <ul id="captain3List" class="list-inside">
+                        @Model.CreateRoomInputModel.Captains[2]
                         <!-- Elements chosen by Captain 3 will appear here -->
                     </ul>
                 </div>
@@ -93,5 +94,7 @@
             }
         });
     </script>
+    @* <script src="~/js/captainPick.js"></script> *@
 </body>
 </html>
+

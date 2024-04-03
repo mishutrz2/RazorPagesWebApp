@@ -70,7 +70,7 @@
     <div class="captain-view">
         @if (true@* player is captain *@)
         {
-            @Html.Partial("_PartialViewCaptainPick.cshtml")
+            @Html.Partial("_PartialViewCaptainPick.cshtml", Model.CurrentSession)
         }
     </div>
 </div>
@@ -83,6 +83,14 @@
 <script src="~/js/signalr/dist/browser/signalr.js"></script>
 <script src="~/js/chat.js"></script>
 
+<script>
+    window.addEventListener('beforeunload', function (e) {
+        // Perform cleanup tasks or send AJAX request to the server
+        // For example:
+        e.preventDefault();
+        //fetch('/cleanup', { method: 'POST' });
+    });
+</script>
 
 
 <style>

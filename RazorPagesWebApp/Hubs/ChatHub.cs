@@ -1,12 +1,20 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using RazorPagesWebApp.Models;
+using RazorPagesWebApp.Services.Interfaces;
 using System.Collections.Concurrent;
 
 namespace RazorPagesWebApp.Hubs
 {
-    public class ChatHub : Hub
+    public partial class ChatHub : Hub
     {
         private static readonly ConcurrentDictionary<string, string> UserSessionMap = new ConcurrentDictionary<string, string>();
+
+        protected readonly ISessionService _sessionService;
+
+        public ChatHub(ISessionService sessionService)
+        {
+            _sessionService = sessionService;
+        }
 
         public async Task SendMessage(string sessionId, string user, string message, string avatarUrl)
         {
