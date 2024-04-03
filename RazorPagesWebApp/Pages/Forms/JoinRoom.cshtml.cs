@@ -30,7 +30,7 @@ namespace TeamPickChatWebApp.Pages
                 sessionGuid = Guid.Empty;
             }
 
-            // Validate input (e.g., check if session ID and name are not empty)
+            // Validate input (e.g., check if session ID is not empty)
             Session session = _sessionService.GetSession(sessionGuid);
 
             if (session == null)

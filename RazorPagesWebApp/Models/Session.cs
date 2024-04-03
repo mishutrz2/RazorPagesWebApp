@@ -12,6 +12,12 @@
 
         public List<string> Captains { get; set; } = new List<string>(); // List of captains
 
+        public List<string> TeamOne { get; set; } = new List<string>(); // Team 1
+
+        public List<string> TeamTwo { get; set; } = new List<string>(); // Team 2
+
+        public List<string> TeamThree { get; set; } = new List<string>(); // Team 3
+
         public bool AddPlayer(string playerName)
         {
             if (!Players.Contains(playerName))

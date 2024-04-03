@@ -50,6 +50,11 @@ namespace RazorPagesWebApp.Pages.Forms
                 return RedirectToPage("/ListAlreadyEntered");
             }
 
+            if (!_sessionService.AreThereEnoughCaptains(createRoomInputModel))
+            {
+                return RedirectToPage("/NotEnoughCaptainsOnTheList");
+            }
+
             SessionId =_sessionService.CreateSession(newRoomId, createRoomInputModel).RoomId;
 
             return RedirectToPage("/RoomCreated", new { roomId = SessionId });

@@ -22,6 +22,12 @@ namespace RazorPagesWebApp.Services
             lock (_lock)
             {
                 var session = new Session { RoomId = roomId, CreateRoomInputModel = createRoomInputModel };
+
+                // first, add captains to the 3 teams
+                session.TeamOne.Add(createRoomInputModel.Captains[0]);
+                session.TeamTwo.Add(createRoomInputModel.Captains[1]);
+                session.TeamThree.Add(createRoomInputModel.Captains[2]);
+
                 _sessions.TryAdd(roomId, session);
                 return session;
             }
@@ -59,6 +65,16 @@ namespace RazorPagesWebApp.Services
                 {
                     return true;
                 }
+            }
+
+            return false;
+        }
+
+        public bool AreThereEnoughCaptains(CreateRoomInputModel createRoomInputModel)
+        {
+            if (createRoomInputModel.Captains.Count == 3)
+            {
+                return true;
             }
 
             return false;
