@@ -38,18 +38,15 @@ connection.on("ReceiveMessage", function (user, message, received_img_url) {
 
 connection.start().then(function () {
     document.getElementById("sendButton").disabled = false;
-
-    connection.invoke("JoinSession", sessionId)
-        .catch(err => console.error(err));
-
+    if (!started) {
+        connection.invoke("JoinSession", sessionId, user)
+            .catch(err => console.error(err));
+        started = true;
+    }
 }).catch(function (err) {
     return console.error(err.toString());
 });
 
-// Event handler for when a user joins the session
-connection.on("UserJoined", (connectionId) => {
-    console.log("User joined:", connectionId);
-});
 
 document.getElementById('sendButton').addEventListener('click', function (event) {
     const messageInput = document.getElementById('messageInput');
@@ -80,3 +77,92 @@ document.getElementById('sendButton').addEventListener('click', function (event)
         scrollToBottom();
     }
 });
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+connection.on("UpdateTopListAndTeams", (captainId, chosenPlayerName) => {
+
+    // add item to team lists
+    var teamListId = 'captain' + captainId + 'List';
+    const playerAddedLiElement = document.createElement('li');
+    playerAddedLiElement.innerHTML = `${chosenPlayerName}`;
+
+    var playerAlreadyExists = false;
+    // Check if the player already exists in the list
+    var listItems = document.getElementById(teamListId).getElementsByTagName('li');
+    for (var i = 0; i < listItems.length; i++) {
+        if (listItems[i].textContent.trim() === chosenPlayerName.trim()) {
+            playerAlreadyExists = true;
+            break;
+        }
+    }
+
+    if (!playerAlreadyExists) {
+        document.getElementById(teamListId).append(playerAddedLiElement);
+    }
+
+    // remove item from common list
+    Array.from(document.getElementById('topList').getElementsByTagName('li')).forEach(function (listItem) {
+        if (listItem.innerText.trim() === chosenPlayerName.trim()) {
+            listItem.remove();
+        }
+    });
+
+    currentTurn++;
+});
+
+
+
+
+document.getElementById('topList').addEventListener('click', function (event) {
+    if (event.target.tagName === 'LI' && currentTurnSchedule[currentTurn] === currentUser) {
+        var chosenPlayer = event.target.textContent.trim();
+        connection.invoke("ChoosePlayer", sessionId, user, currentUser, chosenPlayer).catch(function (err) {
+            return console.error(err.toString());
+        });
+    }
+});
+
+
+
+
+
+
+/*const captain1List = document.getElementById('captain1List');
+const captain2List = document.getElementById('captain2List');
+const captain3List = document.getElementById('captain3List');
+
+let currentCaptain = 1;
+let i = 1;
+
+document.getElementById('topList').addEventListener('click', function (event) {
+    if (event.target.tagName === 'LI') {
+        const element = event.target;
+
+        const orderOfChosing = "123321123321";
+
+        switch (currentCaptain) {
+            case 1:
+                captain1List.appendChild(element.cloneNode(true));
+                var orderIntValue = parseInt(orderOfChosing.charAt(i), 10);
+                i++;
+                currentCaptain = orderIntValue;
+                break;
+            case 2:
+                captain2List.appendChild(element.cloneNode(true));
+                var orderIntValue = parseInt(orderOfChosing.charAt(i), 10);
+                i++;
+                currentCaptain = orderIntValue;
+                break;
+            case 3:
+                captain3List.appendChild(element.cloneNode(true));
+                var orderIntValue = parseInt(orderOfChosing.charAt(i), 10);
+                i++;
+                currentCaptain = orderIntValue;
+                break;
+        }
+        element.parentNode.removeChild(element);
+    }
+});*/

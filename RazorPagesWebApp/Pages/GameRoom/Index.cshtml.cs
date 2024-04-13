@@ -17,6 +17,8 @@ namespace RazorPagesWebApp.Pages.GameRoom
         [BindProperty(SupportsGet = true)]
         public string PlayerName { get; set; }
 
+        public int PlayerOrder { get; set; }
+
 
         public IndexModel(ISessionService sessionService)
         {
@@ -26,6 +28,8 @@ namespace RazorPagesWebApp.Pages.GameRoom
         public IActionResult OnGet()
         {
             CurrentSession = _sessionService.GetSession(new Guid(SessionId));
+
+            PlayerOrder = _sessionService.GetPlayerOrderOfChoosing(new Guid(SessionId), PlayerName);
 
             if (CurrentSession == null) {
                 return RedirectToPage("../RoomNotFound");

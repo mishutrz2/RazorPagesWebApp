@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using RazorPagesWebApp.Models;
 using RazorPagesWebApp.Services.Interfaces;
+using System;
 using System.Collections.Concurrent;
 
 namespace RazorPagesWebApp.Hubs
@@ -26,12 +27,9 @@ namespace RazorPagesWebApp.Hubs
 
             // Send the message to all clients in the same group (same sessionId)
             await Clients.OthersInGroup(sessionId).SendAsync("ReceiveMessage", user, message, avatarUrl);
-
-            // Broadcast the message to all clients in the chat room
-            //await Clients.Others.SendAsync("ReceiveMessage", user, message, avatarUrl);
         }
 
-        public async Task JoinSession(string sessionId)
+        public async Task JoinSession(string sessionId, string user)
         {
             // Add the connection to the group based on the session ID
             await Groups.AddToGroupAsync(Context.ConnectionId, sessionId);
@@ -41,7 +39,47 @@ namespace RazorPagesWebApp.Hubs
 
             // Optionally, you can notify clients that the user has joined the session
             await Clients.Group(sessionId).SendAsync("UserJoined", Context.ConnectionId);
+
+            var currentSession = _sessionService.GetSession(new Guid(sessionId));
+
+            if (currentSession.CreateRoomInputModel.Captains.Contains(user) && !currentSession.Captains.Contains(user))
+            {
+                currentSession.Captains.Add(user);
+            }
+
+            if (currentSession.Captains.Count == 3 && currentSession.CreateRoomInputModel.Captains.Contains(user))
+            {
+                var adminAvatarImgUrl = "https://freerangestock.com/sample/119157/business-man-profile-vector.jpg";
+                await Clients.Group(sessionId).SendAsync("ReceiveMessage", "", "AU INTRAT TOTI CAPITANII! ALEGETI-VA JUCATORII!", adminAvatarImgUrl);
+            }
         }
+
+        public async Task ChoosePlayer(string sessionId, string user, string currentUserIndex, string selectedPlayerName)
+        {
+            var session = _sessionService.GetSession(new Guid(sessionId));
+            if (session == null)
+            {
+                await Task.CompletedTask;
+            }
+
+            if (session.CreateRoomInputModel.Captains[0] == user && !session.TeamOne.Contains(selectedPlayerName))
+            {
+                session.TeamOne.Add(selectedPlayerName);
+            }
+            else if (session.CreateRoomInputModel.Captains[1] == user && !session.TeamTwo.Contains(selectedPlayerName))
+            {
+                session.TeamTwo.Add(selectedPlayerName);
+            }
+            else if (session.CreateRoomInputModel.Captains[2] == user && !session.TeamThree.Contains(selectedPlayerName))
+            {
+                session.TeamThree.Add(selectedPlayerName);
+            }
+
+            await Clients.Group(sessionId).SendAsync("UpdateTopListAndTeams", currentUserIndex, selectedPlayerName);
+        }
+
+
+        // /////////// /////////// /////////// /////////// ///////////
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {

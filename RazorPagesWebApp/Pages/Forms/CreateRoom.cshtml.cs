@@ -14,10 +14,10 @@ namespace RazorPagesWebApp.Pages.Forms
         [Required(ErrorMessage = "The list is required")]
         public required string InputList { get; set; }
 
-        [BindProperty]
+        /*[BindProperty]
         [Required(ErrorMessage = "The number of repicks is required")]
-        [Range(1, 10, ErrorMessage = "Value must be between {1} and {2}")]
-        public int NumberOfRepicks { get; set; }
+        [Range(1, 6, ErrorMessage = "Value must be between {1} and {2}")]
+        public int NumberOfRepicks { get; set; }*/
 
         [BindProperty]
         public Guid SessionId { get; set; } // Property to store the session ID
@@ -41,7 +41,7 @@ namespace RazorPagesWebApp.Pages.Forms
                 return Page(); // Or return another IActionResult to handle the invalid state
             }
 
-            CreateRoomInputModel createRoomInputModel = UserInputService.PopulateCreateRoomInputModel(InputList, NumberOfRepicks);
+            CreateRoomInputModel createRoomInputModel = UserInputService.PopulateCreateRoomInputModel(InputList, 1 /*NumberOfRepicks*/);
 
             Guid newRoomId = Guid.NewGuid();
 

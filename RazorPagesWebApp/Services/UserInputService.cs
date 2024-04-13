@@ -28,7 +28,7 @@ namespace RazorPagesWebApp.Services
                 }
             }
 
-            createRoomInputModel.Captains.Sort();
+            //createRoomInputModel.Captains.Sort();
             createRoomInputModel.Players.Sort();
 
             return createRoomInputModel;

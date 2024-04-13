@@ -5,7 +5,7 @@
 }
 
 <h1>Welcome, @Model.PlayerName </h1>
-<br/>
+<br />
 
 
 <head>
@@ -35,63 +35,124 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-3 gap-4 mt-4">
-
+        <div class="flex flex-col items-center">
+            </br></br>
             <!-- Team display sections -->
-            <div class="bg-white p-4 rounded-lg shadow">
-                <h5 class="font-bold uppercase text-gray-600">Team 1</h5>
-                <ul class="mt-2">
-                    @foreach (var teamOnePlayer in Model.CurrentSession.TeamOne)
-                    {
-                        <li>@teamOnePlayer</li>
-                    }
-                </ul>
-            </div>
-            <div class="bg-white p-4 rounded-lg shadow">
-                <h5 class="font-bold uppercase text-gray-600">Team 3</h5>
-                <ul class="mt-2">
-                    @foreach (var teamTwoPlayer in Model.CurrentSession.TeamTwo)
-                    {
-                        <li>@teamTwoPlayer</li>
-                    }
-                </ul>
-            </div>
-            <div class="bg-white p-4 rounded-lg shadow">
-                <h5 class="font-bold uppercase text-gray-600">Team 2</h5>
-                <ul class="mt-2">
-                    @foreach (var teamThreePlayer in Model.CurrentSession.TeamThree)
-                    {
-                        <li>@teamThreePlayer</li>
-                    }
-                </ul>
+            <!-- Captains -->
+            <div class="flex justify-around w-full max-w-4xl">
+                <!-- Captain 1 -->
+                <div class="team bg-white shadow-md rounded p-4">
+                    <div id="teamOneAvatar" class="bg-gray-200 rounded-full w-16 h-16 flex items-center justify-center mb-4">
+                        <span class="text-lg font-bold">1</span>
+                    </div>
+                    <ul id="captain1List" class="list-inside">
+                        @foreach(var item in Model.CurrentSession.TeamOne)
+                        {
+                            <li>@item</li>
+                        }
+                        @* <li>
+                            @Model.CurrentSession.CreateRoomInputModel.Captains[0]
+                        </li> *@
+                        <!-- Elements chosen by Captain 1 will appear here -->
+                    </ul>
+                </div>
+
+                <!-- Captain 2 -->
+                <div class="team bg-white shadow-md rounded p-4">
+                    <div id="teamTwoAvatar" class="bg-gray-200 rounded-full w-16 h-16 flex items-center justify-center mb-4">
+                        <span class="text-lg font-bold">2</span>
+                    </div>
+                    <ul id="captain2List" class="list-inside">
+                        @foreach (var item in Model.CurrentSession.TeamTwo)
+                        {
+                            <li>@item</li>
+                        }
+                        <!-- Elements chosen by Captain 2 will appear here -->
+                    </ul>
+                </div>
+
+                <!-- Captain 3 -->
+                <div class="team bg-white shadow-md rounded p-4">
+                    <div id="teamThreeAvatar" class="bg-gray-200 rounded-full w-16 h-16 flex items-center justify-center mb-4">
+                        <span class="text-lg font-bold">3</span>
+                    </div>
+                    <ul id="captain3List" class="list-inside">
+                        @foreach (var item in Model.CurrentSession.TeamThree)
+                        {
+                            <li>@item</li>
+                        }
+                        <!-- Elements chosen by Captain 3 will appear here -->
+                    </ul>
+                </div>
             </div>
         </div>
+
+
+        @* <div class="grid grid-cols-3 gap-4 mt-4">
+        <div class="bg-white p-4 rounded-lg shadow">
+        <h5 class="font-bold uppercase text-gray-600">Team 1</h5>
+        <ul class="mt-2">
+        @foreach (var teamOnePlayer in Model.CurrentSession.TeamOne)
+        {
+        <li>@teamOnePlayer</li>
+        }
+        </ul>
+        </div>
+        <div class="bg-white p-4 rounded-lg shadow">
+        <h5 class="font-bold uppercase text-gray-600">Team 3</h5>
+        <ul class="mt-2">
+        @foreach (var teamTwoPlayer in Model.CurrentSession.TeamTwo)
+        {
+        <li>@teamTwoPlayer</li>
+        }
+        </ul>
+        </div>
+        <div class="bg-white p-4 rounded-lg shadow">
+        <h5 class="font-bold uppercase text-gray-600">Team 2</h5>
+        <ul class="mt-2">
+        @foreach (var teamThreePlayer in Model.CurrentSession.TeamThree)
+        {
+        <li>@teamThreePlayer</li>
+        }
+        </ul>
+        </div>
+        </div> *@
     </div>
 
     <div class="captain-view">
-        @if (true@* player is captain *@)
+        @if (Model.CurrentSession.CreateRoomInputModel.Captains.Contains(Model.PlayerName))
         {
-            @Html.Partial("_PartialViewCaptainPick.cshtml", Model.CurrentSession)
+            @Html.Partial("_PartialViewCaptainPick.cshtml", Model)
         }
+        </br
+
     </div>
 </div>
 
 
 <script>
+    // stop calling JoinSession twice
+    var started = false;
+
+    // for knowing who is now choosing
+    var currentTurnSchedule = "112233332211112233332211";
+    var currentTurn = 0;
+
     var user = '@Model.PlayerName'
+    var currentUser = '@Model.PlayerOrder'
     var sessionId = '@Model.SessionId'
 </script>
 <script src="~/js/signalr/dist/browser/signalr.js"></script>
 <script src="~/js/chat.js"></script>
 
-<script>
+@* <script>
     window.addEventListener('beforeunload', function (e) {
         // Perform cleanup tasks or send AJAX request to the server
         // For example:
         e.preventDefault();
         //fetch('/cleanup', { method: 'POST' });
     });
-</script>
+</script> *@
 
 
 <style>

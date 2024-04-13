@@ -116,13 +116,39 @@ namespace RazorPagesWebApp.Services
             }
         }
 
+        public int GetPlayerOrderOfChoosing(Guid roomId, string playerOrCaptainName)
+        {
+            playerOrCaptainName = playerOrCaptainName.ToLower();
+
+            lock (_lock)
+            {
+                var session = GetSession(roomId);
+                if (session != null)
+                {
+                    if (session.CreateRoomInputModel.Captains[0] == playerOrCaptainName)
+                    {
+                        return 1;
+                    }
+                    else if (session.CreateRoomInputModel.Captains[1] == playerOrCaptainName)
+                    {
+                        return 2;
+                    }
+                    else
+                    {
+                        return 3;
+                    }
+                }
+                return 4; // Session not found
+            }
+        }
+
         // methods used to remove expired sessions
         private async Task RemoveExpiredSessionsLoop()
         {
             while (true)
             {
                 RemoveExpiredSessions();
-                await Task.Delay(TimeSpan.FromHours(2)); // Check for expired sessions every 2 hours
+                await Task.Delay(TimeSpan.FromMinutes(20)); // Check for expired sessions every 20 minutes
             }
         }
 
@@ -134,7 +160,7 @@ namespace RazorPagesWebApp.Services
                 foreach (var kvp in _sessions)
                 {
                     var session = kvp.Value;
-                    if (currentTime - session.CreationTime > TimeSpan.FromHours(2))
+                    if (currentTime - session.CreationTime > TimeSpan.FromMinutes(20))
                     {
                         _sessions.TryRemove(kvp.Key, out _);
                     }

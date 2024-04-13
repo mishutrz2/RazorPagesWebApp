@@ -1,4 +1,4 @@
-﻿@model Models.Session
+﻿@model RazorPagesWebApp.Pages.GameRoom.IndexModel
 
 <html>
 <head>
@@ -11,6 +11,10 @@
         .team{
             margin: 2px 2px 2px 2px;
         }
+
+        .currentlyChoosingTeam{
+            background-color: green;
+        }
     </style>
 </head>
 <body class="bg-gray-100">
@@ -19,92 +23,17 @@
             <!-- Top List -->
             <div class="bg-white shadow-md rounded p-4 mb-6 w-full max-w-2xl">
                 <ul id="topList" class="list-inside">
-                    @foreach (var player in Model.CreateRoomInputModel.Players)
+                    @foreach (var player in Model.CurrentSession.CreateRoomInputModel.Players)
                     {
-                        <li class="p-2 border-b">@player</li>
+                        <li style="margin: 20px 10px 20px 10px;" class="p-2 border-b">@player</li>
                     }
                 </ul>
             </div>
-
-            <!-- Captains -->
-            <div class="flex justify-around w-full max-w-4xl">
-                <!-- Captain 1 -->
-                <div class="team bg-white shadow-md rounded p-4">
-                    <div class="bg-gray-200 rounded-full w-16 h-16 flex items-center justify-center mb-4">
-                        <span class="text-lg font-bold">1</span>
-                    </div>
-                    <ul id="captain1List" class="list-inside">
-                        @Model.CreateRoomInputModel.Captains[0]
-                        <!-- Elements chosen by Captain 1 will appear here -->
-                    </ul>
-                </div>
-
-                <!-- Captain 2 -->
-                <div class="team bg-white shadow-md rounded p-4">
-                    <div class="bg-gray-200 rounded-full w-16 h-16 flex items-center justify-center mb-4">
-                        <span class="text-lg font-bold">2</span>
-                    </div>
-                    <ul id="captain2List" class="list-inside">
-                        @Model.CreateRoomInputModel.Captains[1]
-                        <!-- Elements chosen by Captain 2 will appear here -->
-                    </ul>
-                </div>
-
-                <!-- Captain 3 -->
-                <div class="team bg-white shadow-md rounded p-4">
-                    <div class="bg-gray-200 rounded-full w-16 h-16 flex items-center justify-center mb-4">
-                        <span class="text-lg font-bold">3</span>
-                    </div>
-                    <ul id="captain3List" class="list-inside">
-                        @Model.CreateRoomInputModel.Captains[2]
-                        <!-- Elements chosen by Captain 3 will appear here -->
-                    </ul>
-                </div>
-            </div>
         </div>
     </div>
-
-    <script>
-        // JavaScript for interactive features
-        const topList = document.getElementById('topList');
-        const captain1List = document.getElementById('captain1List');
-        const captain2List = document.getElementById('captain2List');
-        const captain3List = document.getElementById('captain3List');
-
-        let currentCaptain = 1;
-        let i = 1;
-
-        topList.addEventListener('click', function (event) {
-            if (event.target.tagName === 'LI') {
-                const element = event.target;
-
-                const orderOfChosing = "123321123321";
-                
-
-                switch (currentCaptain) {
-                    case 1:
-                        captain1List.appendChild(element.cloneNode(true));
-                        var orderIntValue = parseInt(orderOfChosing.charAt(i), 10);
-                        i++;
-                        currentCaptain = orderIntValue;
-                        break;
-                    case 2:
-                        captain2List.appendChild(element.cloneNode(true));
-                        var orderIntValue = parseInt(orderOfChosing.charAt(i), 10);
-                        i++;
-                        currentCaptain = orderIntValue;
-                        break;
-                    case 3:
-                        captain3List.appendChild(element.cloneNode(true));
-                        var orderIntValue = parseInt(orderOfChosing.charAt(i), 10);
-                        i++;
-                        currentCaptain = orderIntValue;
-                        break;
-                }
-                element.parentNode.removeChild(element);
-            }
-        });
-    </script>
 </body>
 </html>
+
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/chat.js"></script>
 

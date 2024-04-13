@@ -1,4 +1,7 @@
-﻿namespace RazorPagesWebApp.Models
+﻿using Microsoft.AspNetCore.SignalR;
+using RazorPagesWebApp.Hubs;
+
+namespace RazorPagesWebApp.Models
 {
     public class Session
     {

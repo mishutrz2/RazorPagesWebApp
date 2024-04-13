@@ -11,5 +11,6 @@ namespace RazorPagesWebApp.Services.Interfaces
         bool AreThereEnoughCaptains(CreateRoomInputModel createroomInputModel);
         bool IsNameOnTheList(Guid roomId, string playerOrCaptainName);
         bool IsNameAlreadyInTheRoom(Guid roomId, string playerOrCaptainName);
+        int GetPlayerOrderOfChoosing(Guid roomId, string playerOrCaptainName);
     }
 }
