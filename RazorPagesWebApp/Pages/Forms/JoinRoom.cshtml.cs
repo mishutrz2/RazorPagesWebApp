@@ -38,6 +38,8 @@ namespace TeamPickChatWebApp.Pages
                 return RedirectToPage("/RoomNotFound");
             }
 
+            name = name.ToLower();
+
             // If user is not on the list, reject their request
             if (!_sessionService.IsNameOnTheList(sessionGuid, name))
             {

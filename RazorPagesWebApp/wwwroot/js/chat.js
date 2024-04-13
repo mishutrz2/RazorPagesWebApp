@@ -87,6 +87,7 @@ connection.on("UnlockTopList", () => {
 connection.on("UpdateTopListAndTeams", (captainId, chosenPlayerName) => {
 
     // add item to team lists
+    //var parrentTeamListId = 'team' + captainId + 'Avatar';
     var teamListId = 'captain' + captainId + 'List';
     const playerAddedLiElement = document.createElement('li');
     playerAddedLiElement.innerHTML = `${chosenPlayerName}`;
@@ -113,6 +114,13 @@ connection.on("UpdateTopListAndTeams", (captainId, chosenPlayerName) => {
     });
 
     currentTurn++;
+
+    document.getElementById('team1Avatar').classList.remove('makeItGreen');
+    document.getElementById('team2Avatar').classList.remove('makeItGreen');
+    document.getElementById('team3Avatar').classList.remove('makeItGreen');
+    if (currentTurnSchedule[currentTurn] === currentUser) {
+        document.getElementById(parrentTeamListId).classList.add('makeItGreen');
+    }
 });
 
 
