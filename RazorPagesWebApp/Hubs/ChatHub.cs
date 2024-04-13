@@ -3,6 +3,7 @@ using RazorPagesWebApp.Models;
 using RazorPagesWebApp.Services.Interfaces;
 using System;
 using System.Collections.Concurrent;
+using System.Reflection;
 
 namespace RazorPagesWebApp.Hubs
 {
