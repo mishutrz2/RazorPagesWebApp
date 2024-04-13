@@ -5,10 +5,6 @@ var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 // Disable the send button until connection is established.
 document.getElementById("sendButton").disabled = true;
 
-// Get user avatar
-var img_url = 'https://upload.wikimedia.org/wikipedia/commons/f/fb/Small_loadingspinner.svg';
-fetch('https://source.unsplash.com/random/100x100?face')
-    .then(data => { img_url = data.url })
 
 // Function for scrolling to the bottom of the chat
 function scrollToBottom() {
@@ -41,6 +37,11 @@ connection.start().then(function () {
     if (!started) {
         connection.invoke("JoinSession", sessionId, user)
             .catch(err => console.error(err));
+
+        // Get user avatar
+        fetch('https://source.unsplash.com/random/100x100?face')
+            .then(data => { img_url = data.url })
+
         started = true;
     }
 }).catch(function (err) {
