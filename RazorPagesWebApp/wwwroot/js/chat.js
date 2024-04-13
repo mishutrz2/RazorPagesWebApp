@@ -85,10 +85,9 @@ connection.on("UnlockTopList", () => {
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-connection.on("UpdateTopListAndTeams", (captainId, chosenPlayerName, nextPlayerOrder) => {
+connection.on("UpdateTopListAndTeams", (captainId, chosenPlayerName) => {
 
     // add item to team lists
-    var parrentTeamListId = 'team' + nextPlayerOrder + 'Avatar';
     var teamListId = 'captain' + captainId + 'List';
     const playerAddedLiElement = document.createElement('li');
     playerAddedLiElement.innerHTML = `${chosenPlayerName}`;
@@ -115,14 +114,6 @@ connection.on("UpdateTopListAndTeams", (captainId, chosenPlayerName, nextPlayerO
     });
 
     currentTurn++;
-
-    if (currentTurnSchedule[currentTurn] === currentUser) {
-        document.getElementById(parrentTeamListId).classList.add('makeItGreen');
-    } else {
-        document.getElementById('team1Avatar').classList.remove('makeItGreen');
-        document.getElementById('team2Avatar').classList.remove('makeItGreen');
-        document.getElementById('team3Avatar').classList.remove('makeItGreen');
-    }
 });
 
 
@@ -131,8 +122,7 @@ connection.on("UpdateTopListAndTeams", (captainId, chosenPlayerName, nextPlayerO
 document.getElementById('topList').addEventListener('click', function (event) {
     if (event.target.tagName === 'LI' && unlockedTopList && currentTurnSchedule[currentTurn] === currentUser) {
         var chosenPlayer = event.target.textContent.trim();
-        var nextPlayerOrder = currentTurnSchedule[currentTurn + 2];
-        connection.invoke("ChoosePlayer", sessionId, user, currentUser, chosenPlayer, nextPlayerOrder).catch(function (err) {
+        connection.invoke("ChoosePlayer", sessionId, user, currentUser, chosenPlayer).catch(function (err) {
             return console.error(err.toString());
         });
     }

@@ -56,7 +56,7 @@ namespace RazorPagesWebApp.Hubs
             }
         }
 
-        public async Task ChoosePlayer(string sessionId, string user, string currentUserIndex, string selectedPlayerName, string nextPlayerOrder)
+        public async Task ChoosePlayer(string sessionId, string user, string currentUserIndex, string selectedPlayerName)
         {
             var session = _sessionService.GetSession(new Guid(sessionId));
             if (session == null)
@@ -77,7 +77,7 @@ namespace RazorPagesWebApp.Hubs
                 session.TeamThree.Add(selectedPlayerName);
             }
 
-            await Clients.Group(sessionId).SendAsync("UpdateTopListAndTeams", currentUserIndex, selectedPlayerName, nextPlayerOrder);
+            await Clients.Group(sessionId).SendAsync("UpdateTopListAndTeams", currentUserIndex, selectedPlayerName);
         }
 
 

@@ -42,7 +42,7 @@
             <div class="flex justify-around w-full max-w-4xl">
                 <!-- Captain 1 -->
                 <div class="team bg-white shadow-md rounded p-4">
-                    <div id="team1Avatar" class="makeItGreen bg-gray-200 rounded-full w-16 h-16 flex items-center justify-center mb-4">
+                    <div id="team1Avatar" class="bg-gray-200 rounded-full w-16 h-16 flex items-center justify-center mb-4">
                         <span class="text-lg font-bold">1</span>
                     </div>
                     <ul id="captain1List" class="list-inside">
@@ -87,36 +87,6 @@
             </div>
         </div>
 
-
-        @* <div class="grid grid-cols-3 gap-4 mt-4">
-        <div class="bg-white p-4 rounded-lg shadow">
-        <h5 class="font-bold uppercase text-gray-600">Team 1</h5>
-        <ul class="mt-2">
-        @foreach (var teamOnePlayer in Model.CurrentSession.TeamOne)
-        {
-        <li>@teamOnePlayer</li>
-        }
-        </ul>
-        </div>
-        <div class="bg-white p-4 rounded-lg shadow">
-        <h5 class="font-bold uppercase text-gray-600">Team 3</h5>
-        <ul class="mt-2">
-        @foreach (var teamTwoPlayer in Model.CurrentSession.TeamTwo)
-        {
-        <li>@teamTwoPlayer</li>
-        }
-        </ul>
-        </div>
-        <div class="bg-white p-4 rounded-lg shadow">
-        <h5 class="font-bold uppercase text-gray-600">Team 2</h5>
-        <ul class="mt-2">
-        @foreach (var teamThreePlayer in Model.CurrentSession.TeamThree)
-        {
-        <li>@teamThreePlayer</li>
-        }
-        </ul>
-        </div>
-        </div> *@
     </div>
 
     <div class="captain-view">
@@ -148,14 +118,14 @@
 <script src="~/js/signalr/dist/browser/signalr.js"></script>
 <script src="~/js/chat.js"></script>
 
-@* <script>
+<script>
     window.addEventListener('beforeunload', function (e) {
         // Perform cleanup tasks or send AJAX request to the server
         // For example:
         e.preventDefault();
         //fetch('/cleanup', { method: 'POST' });
     });
-</script> *@
+</script>
 
 
 <style>
@@ -170,9 +140,5 @@
     .captain-view {
         margin-top: 120px;
         margin-bottom: 200px;
-    }
-
-    .makeItGreen {
-        background-color: green;
     }
 </style>
