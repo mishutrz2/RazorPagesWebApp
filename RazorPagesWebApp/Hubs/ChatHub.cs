@@ -51,6 +51,8 @@ namespace RazorPagesWebApp.Hubs
             {
                 var adminAvatarImgUrl = "https://freerangestock.com/sample/119157/business-man-profile-vector.jpg";
                 await Clients.Group(sessionId).SendAsync("ReceiveMessage", "", "AU INTRAT TOTI CAPITANII! ALEGETI-VA JUCATORII!", adminAvatarImgUrl);
+
+                await Clients.Group(sessionId).SendAsync("UnlockTopList");
             }
         }
 

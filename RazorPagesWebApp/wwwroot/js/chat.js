@@ -78,7 +78,9 @@ document.getElementById('sendButton').addEventListener('click', function (event)
     }
 });
 
-
+connection.on("UnlockTopList", () => {
+    unlockedTopList = true;
+});
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -117,7 +119,7 @@ connection.on("UpdateTopListAndTeams", (captainId, chosenPlayerName) => {
 
 
 document.getElementById('topList').addEventListener('click', function (event) {
-    if (event.target.tagName === 'LI' && currentTurnSchedule[currentTurn] === currentUser) {
+    if (event.target.tagName === 'LI' && unlockedTopList && currentTurnSchedule[currentTurn] === currentUser) {
         var chosenPlayer = event.target.textContent.trim();
         connection.invoke("ChoosePlayer", sessionId, user, currentUser, chosenPlayer).catch(function (err) {
             return console.error(err.toString());
