@@ -57,19 +57,6 @@ namespace RazorPagesWebApp.Services
             }
         }
 
-        public bool ListAlreadyEntered(CreateRoomInputModel createRoomInputModel)
-        {
-            foreach (var session in _sessions.Values)
-            {
-                if (createRoomInputModel.EqualsModel(session.CreateRoomInputModel))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
         public bool AreThereEnoughCaptains(CreateRoomInputModel createRoomInputModel)
         {
             if (createRoomInputModel.Captains.Count == 3)

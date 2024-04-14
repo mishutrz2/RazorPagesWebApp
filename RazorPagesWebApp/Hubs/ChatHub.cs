@@ -63,6 +63,7 @@ namespace RazorPagesWebApp.Hubs
             if (session == null)
             {
                 await Task.CompletedTask;
+                return;
             }
 
             if (session.CreateRoomInputModel.Captains[0] == user && !session.TeamOne.Contains(selectedPlayerName))
