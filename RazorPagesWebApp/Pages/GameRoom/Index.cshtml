@@ -19,7 +19,7 @@
     <div class="container mx-auto p-4">
         <div class="bg-white rounded-lg shadow">
             <div class="border-b p-3">
-                <h5 class="font-bold uppercase text-gray-600">@Model.SessionId</h5>
+                <h5 class="font-bold uppercase text-gray-600">@Model.SessionId ----- camera se inchide la @Model.CurrentSession.CreationTime.AddHours(3).AddMinutes(20).ToShortTimeString()</h5>
             </div>
             <div class="p-4">
                 <div id="messagesListParent" class="overflow-y-auto h-96">
@@ -46,13 +46,10 @@
                         <span class="text-lg font-bold">1</span>
                     </div>
                     <ul id="captain1List" class="list-inside">
-                        @foreach(var item in Model.CurrentSession.TeamOne)
+                        @foreach (var item in Model.CurrentSession.TeamOne)
                         {
                             <li>@item</li>
                         }
-                        @* <li>
-                            @Model.CurrentSession.CreateRoomInputModel.Captains[0]
-                        </li> *@
                         <!-- Elements chosen by Captain 1 will appear here -->
                     </ul>
                 </div>
@@ -89,22 +86,32 @@
 
     </div>
 
-    <div class="captain-view">
-        @if (Model.CurrentSession.CreateRoomInputModel.Captains.Contains(Model.PlayerName))
-        {
-            @Html.Partial("_PartialViewCaptainPick.cshtml", Model)
-        }
-        else
-        {
-            <div id="topList">
-                @* ??? *@
+    @if (Model.CurrentSession.CreateRoomInputModel.Captains.Contains(Model.PlayerName))
+    {
+        <div class="captain-view container mx-auto p-4">
+            <div class="flex flex-col items-center">
+                <!-- Top List -->
+                <div class="bg-white shadow-md rounded p-4 mb-6 w-full max-w-2xl">
+                    <ul id="topList" class="list-inside">
+                        @foreach (var player in Model.CurrentSession.CreateRoomInputModel.Players)
+                        {
+                            <li style="margin: 20px 10px 20px 10px;" class="p-2 border-b">@player</li>
+                        }
+                    </ul>
+                </div>
             </div>
-        }
-        </br
+        </div>
+    }
+    else
+    {
+        <div id="topList">
+            @* emtpy *@
+        </div>
+    }
 
-    </div>
+    </br>
+    </br>
 </div>
-
 
 <script>
     var img_url = 'https://upload.wikimedia.org/wikipedia/commons/f/fb/Small_loadingspinner.svg';
@@ -113,7 +120,7 @@
     var started = false;
 
     // for knowing who is now choosing
-    var currentTurnSchedule = "1122333322111122333322119999";
+    var currentTurnSchedule = "123321123321";
     var currentTurn = 0;
     var unlockedTopList = false;
 
@@ -124,18 +131,8 @@
 <script src="~/js/signalr/dist/browser/signalr.js"></script>
 <script src="~/js/chat.js"></script>
 
-<script>
-    window.addEventListener('beforeunload', function (e) {
-        // Perform cleanup tasks or send AJAX request to the server
-        // For example:
-        e.preventDefault();
-        //fetch('/cleanup', { method: 'POST' });
-    });
-</script>
-
 
 <style>
-    /* Additional custom styles can be added here */
     .bg-blur {
         background-image: url('https://source.unsplash.com/featured/?nature');
         background-size: cover;
@@ -144,7 +141,16 @@
     }
 
     .captain-view {
-        margin-top: 120px;
+        margin-top: 40px;
         margin-bottom: 200px;
+    }
+
+    /* for captains only */
+    .team {
+        margin: 2px 2px 2px 2px;
+    }
+
+    .currentlyChoosingTeam {
+        background-color: green;
     }
 </style>

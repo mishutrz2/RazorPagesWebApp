@@ -4,7 +4,44 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="outer-container">
+    <div class="inner-container">
+        <!-- Your original div goes here -->
+        <div class="text-left">
+            <br />
+            <br />
+            <h1 class="display-4">Salut</h1>
+            <br />
+            <p>1. Creaza o camera folosind o lista de jucatori</p>
+            <p>(Capitanii vor avea un "C" trecut dupa numele lor)</p>
+            <br />
+            <p>2. Distribuite id-ul camerei</p>
+            <br />
+            <p>3. Intra in camera cu un nume de pe lista</p>
+            <br />
+            <p>4. Alegerea echipelor incepe dupa ce intra toti cei 3 capitani</p>
+            <br />
+            <br />
+            <br />
+        </div>
+    </div>
 </div>
+
+<style>
+    .outer-container {
+        display: flex;
+        justify-content: center; /* Horizontally center the inner container */
+        align-items: center; /* Vertically center the inner container */
+        height: 100vh; /* Set the height of the outer container to full viewport height */
+        background-image: url('https://source.unsplash.com/featured/?nature'); /* Background image for the outer container */
+        background-size: cover; /* Ensure the background image covers the entire outer container */
+        background-position: center; /* Center the background image */
+    }
+
+    .inner-container {
+        background-color: white;
+        padding: 60px 40px 60px 40px; /* Add padding to the inner container */
+        border-radius: 10px; /* Set border radius to 10px (adjust as needed) */
+
+    }
+</style>

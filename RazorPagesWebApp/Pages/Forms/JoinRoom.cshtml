@@ -4,38 +4,119 @@
 }
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Form with Blurred Background</title>
-<script src="https://cdn.tailwindcss.com"></script>
 <style>
-  /* Additional styles if needed */
-  .bg-blur {
-    background-image: url('https://source.unsplash.com/featured/?nature');
-    background-size: cover;
-    background-position: center;
-    backdrop-filter: blur(8px);
-  }
+    /* Additional styles if needed */
+    .bg-blur {
+        background-image: url('https://source.unsplash.com/featured/?nature');
+        background-size: cover;
+        background-position: center;
+        backdrop-filter: blur(8px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .bg-white {
+        background-color: white;
+    }
+
+    .bg-opacity-80 {
+        opacity: 0.95;
+    }
+
+    .rounded {
+        border-radius: 0.375rem; /* 6px */
+    }
+
+    .p-8 {
+        padding: 2rem; /* 32px */
+    }
+
+    .shadow-lg {
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    .max-w-md {
+        max-width: 28rem; /* 448px */
+    }
+
+    .mx-auto {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .mb-4 {
+        margin-bottom: 1rem; /* 16px */
+    }
+
+    .mb-6 {
+        margin-bottom: 1.5rem; /* 24px */
+    }
+
+    .p-2 {
+        padding: 0.5rem; /* 8px */
+    }
+
+    .border {
+        border-width: 1px;
+        border-style: solid;
+    }
+
+    .text-danger {
+        color: #dc3545; /* Red color */
+    }
+
+    .bg-blue-500 {
+        background-color: #4a90e2; /* Blue color */
+    }
+
+    .hover\:bg-blue-700:hover {
+        background-color: #1c7ed6; /* Darker blue color on hover */
+    }
+
+    .text-white {
+        color: #ffffff; /* White color */
+    }
+
+    .font-bold {
+        font-weight: 700;
+    }
+
+    .py-2 {
+        padding-top: 0.5rem; /* 8px */
+        padding-bottom: 0.5rem; /* 8px */
+    }
+
+    .px-4 {
+        padding-left: 1rem; /* 16px */
+        padding-right: 1rem; /* 16px */
+    }
+
+    .flex {
+        display: flex;
+    }
+
+    .flex-col {
+        flex-direction: column;
+    }
 </style>
-</head>
-<body class="bg-blur flex items-center justify-center h-screen">
 
-  <div class="bg-white bg-opacity-80 rounded p-8 shadow-lg max-w-md mx-auto">
-    <form method="post" id="myForm" class="flex flex-col">
-            <label for="sessionId" class="text-lg font-semibold mb-2">Room:</label>
-            <input type="text" id="sessionId" name="sessionId" placeholder="Enter room number" class="mb-4 p-2 border rounded">
+<div class="bg-blur">
 
-      <label for="name" class="text-lg font-semibold mb-2">Name:</label>
-      <input type="text" id="name" name="name" placeholder="Enter your name" class="mb-6 p-2 border rounded">
+    <div class="bg-white bg-opacity-80 rounded p-8 shadow-lg max-w-md mx-auto">
+        <form method="post" id="myForm" class="flex flex-col">
+            <span class="text-danger"></span>
+            <input type="text" name="EnterSessionId" placeholder="Enter room number" class="mb-4 p-2 border rounded">
 
-      <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-        Join
-      </button>
-    </form>
-  </div>
+            <span class="text-danger"></span>
+            <input type="text" name="InputName" placeholder="Enter your name" class="mb-6 p-2 border rounded">
 
-</body>
-</html>
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Join
+            </button>
+        </form>
+    </div>
+
+</div>
+

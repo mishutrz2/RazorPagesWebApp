@@ -51,7 +51,7 @@ namespace RazorPagesWebApp.Hubs
             if (currentSession.Captains.Count == 3 && currentSession.CreateRoomInputModel.Captains.Contains(user))
             {
                 var adminAvatarImgUrl = "https://freerangestock.com/sample/119157/business-man-profile-vector.jpg";
-                await Clients.Group(sessionId).SendAsync("ReceiveMessage", "", "AU INTRAT TOTI CAPITANII! ALEGETI-VA JUCATORII!", adminAvatarImgUrl);
+                await Clients.Group(sessionId).SendAsync("ReceiveMessage", "", "Au intrat capitanii", adminAvatarImgUrl);
 
                 await Clients.Group(sessionId).SendAsync("UnlockTopList");
             }
@@ -79,10 +79,13 @@ namespace RazorPagesWebApp.Hubs
             }
 
             await Clients.Group(sessionId).SendAsync("UpdateTopListAndTeams", currentUserIndex, selectedPlayerName);
+
+            if (session.TeamOne.Count == 5 && session.TeamTwo.Count == 5 && session.TeamThree.Count == 5)
+            {
+                var adminAvatarImgUrl = "https://freerangestock.com/sample/119157/business-man-profile-vector.jpg";
+                await Clients.Group(sessionId).SendAsync("ReceiveMessage", "", "Gata echipele. Spor la joaca!", adminAvatarImgUrl);
+            }
         }
-
-
-        // /////////// /////////// /////////// /////////// ///////////
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {
@@ -90,9 +93,6 @@ namespace RazorPagesWebApp.Hubs
             {
                 // Remove the connection from the group when disconnected
                 await Groups.RemoveFromGroupAsync(Context.ConnectionId, session);
-
-                // Optionally, you can notify clients that the user has left the session
-                await Clients.Group(session).SendAsync("UserLeft", Context.ConnectionId);
             }
 
             await base.OnDisconnectedAsync(exception);

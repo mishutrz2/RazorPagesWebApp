@@ -83,7 +83,6 @@ connection.on("UnlockTopList", () => {
     unlockedTopList = true;
 });
 
-//////////////////////////////////////////////////////////////////////////////////////////////
 
 connection.on("UpdateTopListAndTeams", (captainId, chosenPlayerName) => {
 
@@ -127,45 +126,3 @@ document.getElementById('topList').addEventListener('click', function (event) {
         });
     }
 });
-
-
-
-
-
-
-/*const captain1List = document.getElementById('captain1List');
-const captain2List = document.getElementById('captain2List');
-const captain3List = document.getElementById('captain3List');
-
-let currentCaptain = 1;
-let i = 1;
-
-document.getElementById('topList').addEventListener('click', function (event) {
-    if (event.target.tagName === 'LI') {
-        const element = event.target;
-
-        const orderOfChosing = "123321123321";
-
-        switch (currentCaptain) {
-            case 1:
-                captain1List.appendChild(element.cloneNode(true));
-                var orderIntValue = parseInt(orderOfChosing.charAt(i), 10);
-                i++;
-                currentCaptain = orderIntValue;
-                break;
-            case 2:
-                captain2List.appendChild(element.cloneNode(true));
-                var orderIntValue = parseInt(orderOfChosing.charAt(i), 10);
-                i++;
-                currentCaptain = orderIntValue;
-                break;
-            case 3:
-                captain3List.appendChild(element.cloneNode(true));
-                var orderIntValue = parseInt(orderOfChosing.charAt(i), 10);
-                i++;
-                currentCaptain = orderIntValue;
-                break;
-        }
-        element.parentNode.removeChild(element);
-    }
-});*/

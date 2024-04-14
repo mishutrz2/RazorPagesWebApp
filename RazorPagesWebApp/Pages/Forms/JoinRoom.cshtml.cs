@@ -2,11 +2,20 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using RazorPagesWebApp.Models;
 using RazorPagesWebApp.Services.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace TeamPickChatWebApp.Pages
 {
     public class JoinRoomModel : PageModel
     {
+        [BindProperty]
+        [Required(ErrorMessage = "Enter room id")]
+        public string EnterSessionId { get; set; }
+
+        [BindProperty]
+        [Required(ErrorMessage = "Enter your name")]
+        public string InputName { get; set; }
+
         protected readonly ISessionService _sessionService;
 
         public JoinRoomModel(ISessionService sessionService)
@@ -18,12 +27,17 @@ namespace TeamPickChatWebApp.Pages
         {
         }
 
-        public IActionResult OnPost(string sessionId, string name)
+        public IActionResult OnPost()
         {
+            if (!ModelState.IsValid)
+            {
+                return Page(); // Or return another IActionResult to handle the invalid state
+            }
+
             Guid sessionGuid;
             try
             {
-                sessionGuid = new Guid(sessionId);
+                sessionGuid = new Guid(EnterSessionId);
             }
             catch (FormatException)
             {
@@ -38,25 +52,23 @@ namespace TeamPickChatWebApp.Pages
                 return RedirectToPage("/RoomNotFound");
             }
 
-            name = name.ToLower();
-
             // If user is not on the list, reject their request
-            if (!_sessionService.IsNameOnTheList(sessionGuid, name))
+            if (!_sessionService.IsNameOnTheList(sessionGuid, InputName.ToLower()))
             {
                 return RedirectToPage("/UserNotAllowedInThisRoom");
             }
 
             // If user is already connected, reject their request
-            if (_sessionService.IsNameAlreadyInTheRoom(sessionGuid, name))
+            if (_sessionService.IsNameAlreadyInTheRoom(sessionGuid, InputName.ToLower()))
             {
                 return RedirectToPage("/UserAlreadyInThisRoom");
             }
 
             // If everything is ok, connect the user to the room
-            _sessionService.JoinSession(sessionGuid, name);
+            _sessionService.JoinSession(sessionGuid, InputName.ToLower());
 
             // Redirect to the game room page with the session ID
-            return RedirectToPage("/GameRoom/Index", new { SessionId = sessionId, PlayerName = name });
+            return RedirectToPage("/GameRoom/Index", new { SessionId = EnterSessionId, PlayerName = InputName.ToLower() });
         }
     }
 }
