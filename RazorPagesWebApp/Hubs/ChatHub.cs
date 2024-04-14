@@ -51,13 +51,13 @@ namespace RazorPagesWebApp.Hubs
 
             if (currentSession.Captains.Count == 3 && currentSession.CreateRoomInputModel.Captains.Contains(user))
             {
-                await Clients.Group(sessionId).SendAsync("ReceiveMessage", "", "Au intrat capitanii", adminAvatarImgUrl);
+                await Clients.Group(sessionId).SendAsync("ReceiveMessage", "", $"Au intrat capitanii. {currentSession.CreateRoomInputModel.Captains[0]} alege primul", adminAvatarImgUrl);
 
                 await Clients.Group(sessionId).SendAsync("UnlockTopList");
             }
         }
 
-        public async Task ChoosePlayer(string sessionId, string user, string currentUserIndex, string selectedPlayerName)
+        public async Task ChoosePlayer(string sessionId, string user, string currentUserIndex, string selectedPlayerName, string nextUserChoosingOrder)
         {
             var session = _sessionService.GetSession(new Guid(sessionId));
             if (session == null)
@@ -78,7 +78,7 @@ namespace RazorPagesWebApp.Hubs
                 session.TeamThree.Add(selectedPlayerName);
             }
 
-            await Clients.Group(sessionId).SendAsync("UpdateTopListAndTeams", currentUserIndex, selectedPlayerName);
+            await Clients.Group(sessionId).SendAsync("UpdateTopListAndTeams", currentUserIndex, selectedPlayerName, nextUserChoosingOrder);
 
             await Clients.Group(sessionId).SendAsync("ReceiveMessage", "", $"{user} l-a ales pe {selectedPlayerName}", adminAvatarImgUrl);
 

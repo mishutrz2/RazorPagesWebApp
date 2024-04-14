@@ -34,7 +34,6 @@ connection.on("ReceiveMessage", function (user, message, received_img_url) {
 
 connection.start().then(function () {
     document.getElementById("sendButton").disabled = false;
-    if (!started) {
         connection.invoke("JoinSession", sessionId, user)
             .catch(err => console.error(err));
 
@@ -42,8 +41,6 @@ connection.start().then(function () {
         fetch('https://source.unsplash.com/random/100x100?face')
             .then(data => { img_url = data.url })
 
-        started = true;
-    }
 }).catch(function (err) {
     return console.error(err.toString());
 });
@@ -84,12 +81,14 @@ connection.on("UnlockTopList", () => {
 });
 
 
-connection.on("UpdateTopListAndTeams", (captainId, chosenPlayerName) => {
+connection.on("UpdateTopListAndTeams", (captainId, chosenPlayerName, nextUserOrder) => {
 
     // add item to team lists
     var teamListId = 'captain' + captainId + 'List';
     const playerAddedLiElement = document.createElement('li');
     playerAddedLiElement.innerHTML = `${chosenPlayerName}`;
+
+    var nextUserOrderTeamlistId = 'team' + nextUserOrder + "Avatar";
 
     var playerAlreadyExists = false;
     // Check if the player already exists in the list
@@ -112,6 +111,13 @@ connection.on("UpdateTopListAndTeams", (captainId, chosenPlayerName) => {
         }
     });
 
+    document.getElementById("team1Avatar").classList.remove("currentlyChoosingTeam");
+    document.getElementById("team2Avatar").classList.remove("currentlyChoosingTeam");
+    document.getElementById("team3Avatar").classList.remove("currentlyChoosingTeam");
+    document.getElementById(nextUserOrderTeamlistId).classList.add("currentlyChoosingTeam");
+
+    
+
     currentTurn++;
 });
 
@@ -121,7 +127,8 @@ connection.on("UpdateTopListAndTeams", (captainId, chosenPlayerName) => {
 document.getElementById('topList').addEventListener('click', function (event) {
     if (event.target.tagName === 'LI' && unlockedTopList && currentTurnSchedule[currentTurn] === currentUser) {
         var chosenPlayer = event.target.textContent.trim();
-        connection.invoke("ChoosePlayer", sessionId, user, currentUser, chosenPlayer).catch(function (err) {
+        var nextOneChoosingOrder = currentTurnSchedule[currentTurn+1];
+        connection.invoke("ChoosePlayer", sessionId, user, currentUser, chosenPlayer, nextOneChoosingOrder).catch(function (err) {
             return console.error(err.toString());
         });
     }
