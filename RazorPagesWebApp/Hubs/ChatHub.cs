@@ -10,6 +10,7 @@ namespace RazorPagesWebApp.Hubs
     public partial class ChatHub : Hub
     {
         private static readonly ConcurrentDictionary<string, string> UserSessionMap = new ConcurrentDictionary<string, string>();
+        private static string adminAvatarImgUrl = "https://freerangestock.com/sample/119157/business-man-profile-vector.jpg";
 
         protected readonly ISessionService _sessionService;
 
@@ -50,7 +51,6 @@ namespace RazorPagesWebApp.Hubs
 
             if (currentSession.Captains.Count == 3 && currentSession.CreateRoomInputModel.Captains.Contains(user))
             {
-                var adminAvatarImgUrl = "https://freerangestock.com/sample/119157/business-man-profile-vector.jpg";
                 await Clients.Group(sessionId).SendAsync("ReceiveMessage", "", "Au intrat capitanii", adminAvatarImgUrl);
 
                 await Clients.Group(sessionId).SendAsync("UnlockTopList");
@@ -79,6 +79,8 @@ namespace RazorPagesWebApp.Hubs
             }
 
             await Clients.Group(sessionId).SendAsync("UpdateTopListAndTeams", currentUserIndex, selectedPlayerName);
+
+            await Clients.Group(sessionId).SendAsync("ReceiveMessage", "", $"{user} l-a ales pe {selectedPlayerName}", adminAvatarImgUrl);
 
             if (session.TeamOne.Count == 5 && session.TeamTwo.Count == 5 && session.TeamThree.Count == 5)
             {
