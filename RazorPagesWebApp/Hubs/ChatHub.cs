@@ -92,14 +92,27 @@ namespace RazorPagesWebApp.Hubs
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {
-            if (UserSessionMap.TryRemove(Context.ConnectionId, out var sessionId))
+            try
             {
-                // Remove the connection from the group when disconnected
-                await Groups.RemoveFromGroupAsync(Context.ConnectionId, sessionId);
-                await Clients.Group(sessionId).SendAsync("ReceiveMessage", "", "Cineva s-a deconectat ... ", adminAvatarImgUrl);
-            }
+                if (UserSessionMap.TryRemove(Context.ConnectionId, out var sessionId))
+                {
+                    // Remove the connection from the group when disconnected
+                    await Groups.RemoveFromGroupAsync(Context.ConnectionId, sessionId);
+                    await Clients.Group(sessionId).SendAsync("ReceiveMessage", "", "Cineva s-a deconectat ... ", adminAvatarImgUrl);
 
-            await base.OnDisconnectedAsync(exception);
+                    // Now you can use the sessionId as needed
+                    Console.WriteLine($"Disconnected SessionId: {sessionId}");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it in a way that makes sense for your application
+                Console.WriteLine($"An error occurred while handling disconnection: {ex.Message}");
+            }
+            finally
+            {
+                await base.OnDisconnectedAsync(exception);
+            }
         }
     }
 }
