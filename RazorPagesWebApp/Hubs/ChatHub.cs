@@ -33,6 +33,8 @@ namespace RazorPagesWebApp.Hubs
 
         public async Task JoinSession(string sessionId, string user)
         {
+            var currentSession = _sessionService.GetSession(new Guid(sessionId));
+
             // Add the connection to the group based on the session ID
             await Groups.AddToGroupAsync(Context.ConnectionId, sessionId);
 
@@ -41,8 +43,6 @@ namespace RazorPagesWebApp.Hubs
 
             // Optionally, you can notify clients that the user has joined the session
             await Clients.Group(sessionId).SendAsync("UserJoined", user);
-
-            var currentSession = _sessionService.GetSession(new Guid(sessionId));
 
             if (currentSession.CreateRoomInputModel.Captains.Contains(user) && !currentSession.Captains.Contains(user))
             {
@@ -90,6 +90,12 @@ namespace RazorPagesWebApp.Hubs
             }
         }
 
+        public async Task LeaveChat(string sessionId, string user)
+        {
+            // Send the message to all clients in the same group (same sessionId)
+            await Clients.OthersInGroup(sessionId).SendAsync("ReceiveMessage", "", $"!!! !!! !!! {user} has disconnected !!! !!! !!!", adminAvatarImgUrl);
+        }
+
         public override async Task OnDisconnectedAsync(Exception exception)
         {
             try
@@ -98,8 +104,6 @@ namespace RazorPagesWebApp.Hubs
                 {
                     // Remove the connection from the group when disconnected
                     await Groups.RemoveFromGroupAsync(Context.ConnectionId, sessionId);
-                    await Clients.Group(sessionId).SendAsync("ReceiveMessage", "", "Cineva s-a deconectat ... ", adminAvatarImgUrl);
-
                     // Now you can use the sessionId as needed
                     Console.WriteLine($"Disconnected SessionId: {sessionId}");
                 }

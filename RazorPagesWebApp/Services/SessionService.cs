@@ -72,7 +72,7 @@ namespace RazorPagesWebApp.Services
             var session = GetSession(roomId);
             if (session != null)
             {
-                if (session.CreateRoomInputModel.Players.Contains(playerOrCaptainName) || session.CreateRoomInputModel.Captains.Contains(playerOrCaptainName))
+                if (/*session.CreateRoomInputModel.Players.Contains(playerOrCaptainName) || */session.CreateRoomInputModel.Captains.Contains(playerOrCaptainName))
                 {
                     return true;
                 }

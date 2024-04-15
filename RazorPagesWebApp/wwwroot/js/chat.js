@@ -147,10 +147,43 @@ connection.on("UpdateTopListAndTeams", (captainId, chosenPlayerName, nextUserOrd
 document.getElementById('topList').addEventListener('click', function (event) {
     if (event.target.tagName === 'LI' && unlockedTopList && currentTurnSchedule[currentTurn] === currentUser) {
         var chosenPlayer = event.target.textContent.trim();
-        var nextOneChoosingOrder = currentTurnSchedule[currentTurn+1];
-        connection.invoke("ChoosePlayer", sessionId, user, currentUser, chosenPlayer, nextOneChoosingOrder).catch(function (err) {
-            return console.error(err.toString());
-        });
+        var nextOneChoosingOrder = currentTurnSchedule[currentTurn + 1];
+
+        var confirmed = window.confirm(`Are you sure you want to choose ${chosenPlayer}?`);
+
+        // Check if the user clicked OK
+        if (confirmed) {
+            // Perform the action
+            // Add your logic here
+            console.log("Action performed!");
+            connection.invoke("ChoosePlayer", sessionId, user, currentUser, chosenPlayer, nextOneChoosingOrder).catch(function (err) {
+                return console.error(err.toString());
+            });
+        } else {
+            // User clicked Cancel or closed the dialog
+            console.log("Action canceled!");
+        }
     }
+});
+
+
+window.addEventListener("beforeunload", function (event) {
+    // Execute your logic here
+    // For example, send a message to the server indicating the user is disconnecting
+
+    console.log("BEFORE")
+    connection.invoke("LeaveChat", sessionId, user).catch(function (err) {
+        return console.error(err.toString());
+    });
+    console.log("AFTER")
+
+    var listItems = document.getElementById("connectedPlayersList").getElementsByTagName('li');
+    for (var i = 0; i < listItems.length; i++) {
+        if (listItems[i].textContent.trim() === user.trim()) {
+            listItems.remove(user);
+        }
+    }
+
+    
 });
 
