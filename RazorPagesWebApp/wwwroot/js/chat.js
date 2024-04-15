@@ -32,6 +32,26 @@ connection.on("ReceiveMessage", function (user, message, received_img_url) {
     scrollToBottom();
 });
 
+connection.on("UserJoined", function (user) {
+    console.log(user + " has joined");
+    const userJoinedElement = document.createElement('li');
+    userJoinedElement.innerHTML = `${user}`;
+    
+    var playerAlreadyOnTheList = false;
+    // Check if the player already exists in the list
+    var listItems = document.getElementById("connectedPlayersList").getElementsByTagName('li');
+    for (var i = 0; i < listItems.length; i++) {
+        if (listItems[i].textContent.trim() === user.trim()) {
+            playerAlreadyOnTheList = true;
+            break;
+        }
+    }
+
+    if (!playerAlreadyOnTheList) {
+        document.getElementById("connectedPlayersList").appendChild(userJoinedElement);
+    }
+});
+
 connection.start().then(function () {
     document.getElementById("sendButton").disabled = false;
         connection.invoke("JoinSession", sessionId, user)
@@ -133,3 +153,4 @@ document.getElementById('topList').addEventListener('click', function (event) {
         });
     }
 });
+

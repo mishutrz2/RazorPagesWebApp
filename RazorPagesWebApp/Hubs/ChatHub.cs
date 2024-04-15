@@ -40,7 +40,7 @@ namespace RazorPagesWebApp.Hubs
             UserSessionMap.AddOrUpdate(Context.ConnectionId, sessionId, (key, value) => sessionId);
 
             // Optionally, you can notify clients that the user has joined the session
-            await Clients.Group(sessionId).SendAsync("UserJoined", Context.ConnectionId);
+            await Clients.Group(sessionId).SendAsync("UserJoined", user);
 
             var currentSession = _sessionService.GetSession(new Guid(sessionId));
 
@@ -92,10 +92,11 @@ namespace RazorPagesWebApp.Hubs
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {
-            if (UserSessionMap.TryRemove(Context.ConnectionId, out var session))
+            if (UserSessionMap.TryRemove(Context.ConnectionId, out var sessionId))
             {
                 // Remove the connection from the group when disconnected
-                await Groups.RemoveFromGroupAsync(Context.ConnectionId, session);
+                await Groups.RemoveFromGroupAsync(Context.ConnectionId, sessionId);
+                await Clients.Group(sessionId).SendAsync("ReceiveMessage", "", "Cineva s-a deconectat ... ", adminAvatarImgUrl);
             }
 
             await base.OnDisconnectedAsync(exception);
