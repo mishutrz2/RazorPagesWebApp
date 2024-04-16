@@ -168,22 +168,21 @@ document.getElementById('topList').addEventListener('click', function (event) {
 
 
 window.addEventListener("beforeunload", function (event) {
-    // Execute your logic here
-    // For example, send a message to the server indicating the user is disconnecting
-
-    console.log("BEFORE")
     connection.invoke("LeaveChat", sessionId, user).catch(function (err) {
         return console.error(err.toString());
     });
-    console.log("AFTER")
-
-    var listItems = document.getElementById("connectedPlayersList").getElementsByTagName('li');
-    for (var i = 0; i < listItems.length; i++) {
-        if (listItems[i].textContent.trim() === user.trim()) {
-            listItems.remove(user);
-        }
-    }
-
-    
 });
 
+
+connection.on("RemoveFromConnectedList", function (user) {
+    console.log("hello from RemoveFromConnectedList")
+
+    var list = document.getElementById("connectedPlayersList");
+    var items = list.getElementsByTagName("li");
+    for (var i = 0; i < items.length; i++) {
+        if (items[i].textContent.trim() === user) {
+            list.removeChild(items[i]);
+            break; // Exit the loop after removing the first matching item
+        }
+    }
+});

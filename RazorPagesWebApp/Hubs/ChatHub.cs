@@ -94,6 +94,7 @@ namespace RazorPagesWebApp.Hubs
         {
             // Send the message to all clients in the same group (same sessionId)
             await Clients.OthersInGroup(sessionId).SendAsync("ReceiveMessage", "", $"!!! !!! !!! {user} has disconnected !!! !!! !!!", adminAvatarImgUrl);
+            await Clients.OthersInGroup(sessionId).SendAsync("RemoveFromConnectedList", user);
         }
 
         public override async Task OnDisconnectedAsync(Exception exception)

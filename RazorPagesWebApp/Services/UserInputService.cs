@@ -28,7 +28,7 @@ namespace RazorPagesWebApp.Services
                 }
             }
 
-            //createRoomInputModel.Captains.Sort();
+            createRoomInputModel.Captains = createRoomInputModel.Captains.OrderBy(x => Guid.NewGuid()).ToList();
             createRoomInputModel.Players.Sort();
 
             return createRoomInputModel;
