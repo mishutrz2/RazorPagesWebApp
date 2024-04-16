@@ -175,8 +175,6 @@ window.addEventListener("beforeunload", function (event) {
 
 
 connection.on("RemoveFromConnectedList", function (user) {
-    console.log("hello from RemoveFromConnectedList")
-
     var list = document.getElementById("connectedPlayersList");
     var items = list.getElementsByTagName("li");
     for (var i = 0; i < items.length; i++) {
