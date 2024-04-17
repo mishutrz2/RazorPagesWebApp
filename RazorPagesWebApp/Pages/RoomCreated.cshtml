@@ -14,6 +14,26 @@
     <hr/>
     <p>In order to access this room, use the following session id: </p>
     <br/>
-    <p><b>@Model.RoomId</b></p>
+    <p id="textToCopy"><b>@Model.RoomId</b></p>
+    <button onclick="copyText()">Copy</button>
 </body>
 </html>
+
+<script>
+    function copyText() {
+        // Get the text element
+        var textElement = document.getElementById("textToCopy");
+
+        // Create a range and select the text
+        var range = document.createRange();
+        range.selectNode(textElement);
+        window.getSelection().removeAllRanges(); // Clear any existing selection
+        window.getSelection().addRange(range);
+
+        // Copy the selected text to the clipboard
+        document.execCommand("copy");
+
+        // Cleanup: Clear the selection
+        window.getSelection().removeAllRanges();
+    }
+</script>

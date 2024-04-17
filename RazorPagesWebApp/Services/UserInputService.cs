@@ -17,7 +17,7 @@ namespace RazorPagesWebApp.Services
                 if (!string.IsNullOrWhiteSpace(trimmedLine))
                 {
                     string name = trimmedLine.Substring(trimmedLine.IndexOf('.') + 1).Trim().ToLower();
-                    if (name.EndsWith("C", StringComparison.OrdinalIgnoreCase))
+                    if (name.EndsWith(" C", StringComparison.OrdinalIgnoreCase))
                     {
                         createRoomInputModel.Captains.Add(name.Substring(0, name.Length - 2).Trim());
                     }

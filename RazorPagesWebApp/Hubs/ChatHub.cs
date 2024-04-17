@@ -93,7 +93,7 @@ namespace RazorPagesWebApp.Hubs
         public async Task LeaveChat(string sessionId, string user)
         {
             // Send the message to all clients in the same group (same sessionId)
-            await Clients.OthersInGroup(sessionId).SendAsync("ReceiveMessage", "", $"!!! !!! !!! {user} has disconnected !!! !!! !!!", adminAvatarImgUrl);
+            await Clients.OthersInGroup(sessionId).SendAsync("ReceiveMessage", "", $"!!! !!! !!! - INVALID ROOM ---> {user} has disconnected", adminAvatarImgUrl);
             await Clients.OthersInGroup(sessionId).SendAsync("RemoveFromConnectedList", user);
         }
 
