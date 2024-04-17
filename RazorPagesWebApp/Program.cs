@@ -10,12 +10,12 @@ builder.Services.AddSingleton<ISessionService, SessionService>();
 builder.Services.AddRazorPages();
 
 // Add SignalR
-builder.Services.AddSignalR();
-/*var azureSignalRConnectionString = builder.Configuration.GetConnectionString("AZURE_SIGNALR_CONNECTIONSTRING");
+/*builder.Services.AddSignalR();*/
+var azureSignalRConnectionString = builder.Configuration.GetConnectionString("AZURE_SIGNALR_CONNECTIONSTRING");
 builder.Services.AddSignalR().AddAzureSignalR(options =>
 {
     options.ConnectionString = azureSignalRConnectionString;
-});*/
+});
 
 var app = builder.Build();
 
