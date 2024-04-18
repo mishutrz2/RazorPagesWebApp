@@ -21,6 +21,8 @@ namespace RazorPagesWebApp.Models
 
         public List<string> TeamThree { get; set; } = new List<string>(); // Team 3
 
+        public bool HasStarted { get; set; } = false;
+
         public bool AddPlayer(string playerName)
         {
             if (!Players.Contains(playerName))

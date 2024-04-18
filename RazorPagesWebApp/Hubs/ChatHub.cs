@@ -49,8 +49,9 @@ namespace RazorPagesWebApp.Hubs
                 currentSession.Captains.Add(user);
             }
 
-            if (currentSession.Captains.Count == 3 && currentSession.CreateRoomInputModel.Captains.Contains(user))
+            if (!currentSession.HasStarted && currentSession.Captains.Count == 3 && currentSession.CreateRoomInputModel.Captains.Contains(user))
             {
+                currentSession.HasStarted = true;
                 await Clients.Group(sessionId).SendAsync("ReceiveMessage", "", $"Au intrat capitanii. {currentSession.CreateRoomInputModel.Captains[0]} alege primul", adminAvatarImgUrl);
 
                 await Clients.Group(sessionId).SendAsync("UnlockTopList");
