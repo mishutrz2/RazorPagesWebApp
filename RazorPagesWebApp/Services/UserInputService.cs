@@ -4,11 +4,11 @@ namespace RazorPagesWebApp.Services
 {
     public static class UserInputService
     {
-        public static CreateRoomInputModel PopulateCreateRoomInputModel(string inputList, int numberOfRepicks)
+        public static CreateRoomInputModel PopulateCreateRoomInputModel(string inputList, string PickOrder)
         {
             CreateRoomInputModel createRoomInputModel = new CreateRoomInputModel();
 
-            createRoomInputModel.NumberOfRepicks = numberOfRepicks;
+            createRoomInputModel.PickOrder = PickOrder;
 
             string[] lines = inputList.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (string line in lines)
@@ -28,7 +28,7 @@ namespace RazorPagesWebApp.Services
                 }
             }
 
-            createRoomInputModel.Captains.Sort();
+            //createRoomInputModel.Captains.Sort();
             createRoomInputModel.Players.Sort();
 
             return createRoomInputModel;

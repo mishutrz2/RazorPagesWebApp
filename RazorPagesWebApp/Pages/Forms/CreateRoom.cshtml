@@ -23,17 +23,24 @@
                 <span asp-validation-for="InputList" class="text-danger"></span>
             </div>
             <div class="mb-4">
-                <label asp-for="NumberOfRepicks" class="block text-gray-700 text-sm font-bold mb-2">Number of repicks allowed</label>
-                <input asp-for="NumberOfRepicks" type="number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">
-                <span asp-validation-for="NumberOfRepicks" class="text-danger"></span>
+                <label asp-for="PickOrder" class="block text-gray-700 text-sm font-bold mb-2">Pick order</label>
+                <input asp-for="PickOrder" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">
+                <span asp-validation-for="PickOrder" class="text-danger"></span>
             </div>
+
+            <div class="mb-4">
+                <label class="inline-flex items-center">
+                    <input asp-for="RandomizeCaptainsOrder" type="checkbox" class="form-checkbox text-blue-600">
+                    <span class="ml-2 text-gray-700">Randomize the order in which the captains start picking players</span>
+                </label>
+            </div>
+
             <div class="flex items-center justify-between">
                 <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                     Create
                 </button>
             </div>
         </form>
-        <img src="https://source.unsplash.com/featured/?football" alt="Football Image" class="rounded shadow-md">
     </div>
 
     @* <script>

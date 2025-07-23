@@ -21,7 +21,7 @@
                 <ul id="topList" class="list-inside">
                     @foreach (var player in Model.CreateRoomInputModel.Players)
                     {
-                        <li class="p-2 border-b">@player</li>
+                        <li class="p-2 border-b" style="margin: 20px 0px 20px 0px;">@player</li>
                     }
                 </ul>
             </div>
@@ -76,10 +76,18 @@
 
         topList.addEventListener('click', function (event) {
             if (event.target.tagName === 'LI') {
-                const element = event.target;
 
-                const orderOfChosing = "123321123321";
-                
+
+                const element = event.target;
+                //const orderOfChosing = "123321123321";
+                const orderOfChosing = "@Model.CreateRoomInputModel.PickOrder";
+
+                // Show confirmation dialog
+                const playerName = element.textContent.trim(); // Get the name
+                const confirmed = confirm("Esti 100% sigur ca il vrei pe " + playerName + "?");
+                if (!confirmed) {
+                    return; // Exit if user cancels
+                }
 
                 switch (currentCaptain) {
                     case 1:

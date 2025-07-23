@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using RazorPagesWebApp.Models;
 using RazorPagesWebApp.Services;
 using RazorPagesWebApp.Services.Interfaces;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
 namespace RazorPagesWebApp.Pages.Forms
 {
@@ -15,9 +17,11 @@ namespace RazorPagesWebApp.Pages.Forms
         public required string InputList { get; set; }
 
         [BindProperty]
-        [Required(ErrorMessage = "The number of repicks is required")]
-        [Range(1, 10, ErrorMessage = "Value must be between {1} and {2}")]
-        public int NumberOfRepicks { get; set; }
+        [Required(ErrorMessage = "The pick order is required")]
+        public string PickOrder { get; set; } = "123321123123";
+
+        [BindProperty]
+        public bool RandomizeCaptainsOrder { get; set; } = true;
 
         [BindProperty]
         public Guid SessionId { get; set; } // Property to store the session ID
@@ -41,7 +45,15 @@ namespace RazorPagesWebApp.Pages.Forms
                 return Page(); // Or return another IActionResult to handle the invalid state
             }
 
-            CreateRoomInputModel createRoomInputModel = UserInputService.PopulateCreateRoomInputModel(InputList, NumberOfRepicks);
+            CreateRoomInputModel createRoomInputModel = UserInputService.PopulateCreateRoomInputModel(InputList, PickOrder);
+
+            if (RandomizeCaptainsOrder)
+            {
+                var rng = new Random();
+                createRoomInputModel.Captains = createRoomInputModel.Captains
+                    .OrderBy(x => rng.Next())
+                    .ToList();
+            }
 
             Guid newRoomId = Guid.NewGuid();
 
@@ -57,7 +69,9 @@ namespace RazorPagesWebApp.Pages.Forms
 
             SessionId =_sessionService.CreateSession(newRoomId, createRoomInputModel).RoomId;
 
-            return RedirectToPage("/RoomCreated", new { roomId = SessionId });
+            //return RedirectToPage("/RoomCreated", new { roomId = SessionId });
+            return RedirectToPage("/GameRoom/Index", new { SessionId = SessionId, PlayerName = createRoomInputModel.PickOrder });
+
         }
     }
 }

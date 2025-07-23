@@ -6,7 +6,7 @@
 
         public List<string> Captains { get; set; } = new List<string>();
 
-        public int NumberOfRepicks { get; set; }
+        public string PickOrder { get; set; }
 
         public bool EqualsModel(CreateRoomInputModel model)
         {
