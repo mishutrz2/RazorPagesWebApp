@@ -122,7 +122,7 @@ namespace RazorPagesWebApp.Services
             while (true)
             {
                 RemoveExpiredSessions();
-                await Task.Delay(TimeSpan.FromHours(2)); // Check for expired sessions every 2 hours
+                await Task.Delay(TimeSpan.FromHours(12)); // Check for expired sessions every 2 hours
             }
         }
 
@@ -134,7 +134,7 @@ namespace RazorPagesWebApp.Services
                 foreach (var kvp in _sessions)
                 {
                     var session = kvp.Value;
-                    if (currentTime - session.CreationTime > TimeSpan.FromHours(2))
+                    if (currentTime - session.CreationTime > TimeSpan.FromHours(12))
                     {
                         _sessions.TryRemove(kvp.Key, out _);
                     }
