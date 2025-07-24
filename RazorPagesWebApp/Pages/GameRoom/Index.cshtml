@@ -1,7 +1,7 @@
 ﻿@page "{sessionId}"
 @model RazorPagesWebApp.Pages.GameRoom.IndexModel
 
-<h1>Welcome! Pick order is: @string.Concat(Model.PickOrder.Select((c, i) => (i > 0 && i % 3 == 0) ? " " + c : c.ToString()))</h1>
+<h1>Welcome! Pick order is: @string.Concat(Model.CreateRoomInputModel.PickOrder.Select((c, i) => (i > 0 && i % 3 == 0) ? " " + c : c.ToString()))</h1>
 <br/>
 
 
@@ -86,7 +86,7 @@
 
                     const element = event.target;
                     //const orderOfChosing = "123321123321";
-                    const orderOfChosing = "@Model.PickOrder";
+                    const orderOfChosing = "@Model.CreateRoomInputModel.PickOrder";
 
                     // Show confirmation dialog
                     const playerName = element.textContent.trim(); // Get the name

@@ -18,7 +18,7 @@ namespace RazorPagesWebApp.Pages.Forms
 
         [BindProperty]
         [Required(ErrorMessage = "The pick order is required")]
-        public string PickOrder { get; set; } = "123321123123";
+        public string PickOrder { get; set; } = "123312123123";
 
         [BindProperty]
         public bool RandomizeCaptainsOrder { get; set; } = true;
@@ -53,8 +53,7 @@ namespace RazorPagesWebApp.Pages.Forms
 
             return RedirectToPage("/GameRoom/Index",
                 new {
-                    SessionId = Guid.NewGuid().ToString(),
-                    PickOrder = createRoomInputModel.PickOrder
+                    SessionId = Guid.NewGuid().ToString()
                 });
 
         }

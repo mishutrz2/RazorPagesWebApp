@@ -10,10 +10,9 @@ namespace RazorPagesWebApp.Pages.GameRoom
         [BindProperty(SupportsGet = true)]
         public string SessionId { get; set; }
 
-        [BindProperty(SupportsGet = true)]
-        public string PickOrder { get; set; }
-
         public CreateRoomInputModel CreateRoomInputModel { get; set; }
+
+        private bool hasBeenAccessed = false;
 
         public IndexModel()
         {
@@ -22,7 +21,12 @@ namespace RazorPagesWebApp.Pages.GameRoom
 
         public IActionResult OnGet()
         {
-            if (TempData["CreateRoomInputModel"] is string modelJson)
+
+            if (!(TempData["CreateRoomInputModel"] is string modelJson))
+            {
+                return RedirectToPage("/Forms/CreateRoom"); // Redirect to the form if TempData is empty
+            }
+            else
             {
                 CreateRoomInputModel = JsonSerializer.Deserialize<CreateRoomInputModel>(modelJson);
             }
