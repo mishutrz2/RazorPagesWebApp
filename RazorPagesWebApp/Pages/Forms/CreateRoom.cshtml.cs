@@ -57,16 +57,6 @@ namespace RazorPagesWebApp.Pages.Forms
 
             Guid newRoomId = Guid.NewGuid();
 
-            /*if (_sessionService.ListAlreadyEntered(createRoomInputModel))
-            {
-                return RedirectToPage("/ListAlreadyEntered");
-            }*/
-
-            if (!_sessionService.AreThereEnoughCaptains(createRoomInputModel))
-            {
-                return RedirectToPage("/NotEnoughCaptainsOnTheList");
-            }
-
             SessionId =_sessionService.CreateSession(newRoomId, createRoomInputModel).RoomId;
 
             //return RedirectToPage("/RoomCreated", new { roomId = SessionId });
