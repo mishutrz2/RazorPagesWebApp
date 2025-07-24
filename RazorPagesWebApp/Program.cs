@@ -1,10 +1,6 @@
 using RazorPagesWebApp.Services;
-using RazorPagesWebApp.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-builder.Services.AddSingleton<ISessionService, SessionService>();
 
 builder.Services.AddRazorPages();
 

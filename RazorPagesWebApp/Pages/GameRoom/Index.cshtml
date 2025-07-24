@@ -1,10 +1,7 @@
 ﻿@page "{sessionId}"
 @model RazorPagesWebApp.Pages.GameRoom.IndexModel
-@{
-    ViewData["Title"] = "Game Room";
-}
 
-<h1>Welcome! Pick order is: @Model.PlayerName </h1>
+<h1>Welcome! Pick order is: @string.Concat(Model.PickOrder.Select((c, i) => (i > 0 && i % 3 == 0) ? " " + c : c.ToString()))</h1>
 <br/>
 
 
@@ -13,22 +10,119 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game room</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Additional CSS can be added here */
+        .team {
+            margin: 2px 2px 2px 2px;
+        }
+    </style>
 </head>
 
 <div class="bg-blur min-h-screen bg-gray-100 flex flex-col justify-center items-center">
     <div class="captain-view">
-        @if (true@* player is captain *@)
-        {
-            @Html.Partial("_PartialViewCaptainPick.cshtml", Model.CurrentSession)
-        }
+        <div class="container mx-auto p-4">
+            <div class="flex flex-col items-center">
+                <!-- Top List -->
+                <div class="bg-white shadow-md rounded p-4 mb-6 w-full max-w-2xl">
+                    <ul id="topList" class="list-inside">
+                        @foreach (var player in Model.CreateRoomInputModel.Players)
+                        {
+                            <li class="p-2 border-b" style="margin: 20px 0px 20px 0px;">@player</li>
+                        }
+                    </ul>
+                </div>
+
+                <!-- Captains -->
+                <div class="flex justify-around w-full max-w-4xl">
+                    <!-- Captain 1 -->
+                    <div class="team bg-white shadow-md rounded p-4">
+                        <div class="bg-gray-200 rounded-full w-16 h-16 flex items-center justify-center mb-4">
+                            <span class="text-lg font-bold">1</span>
+                        </div>
+                        <ul id="captain1List" class="list-inside">
+                            @Model.CreateRoomInputModel.Captains[0]
+                            <!-- Elements chosen by Captain 1 will appear here -->
+                        </ul>
+                    </div>
+
+                    <!-- Captain 2 -->
+                    <div class="team bg-white shadow-md rounded p-4">
+                        <div class="bg-gray-200 rounded-full w-16 h-16 flex items-center justify-center mb-4">
+                            <span class="text-lg font-bold">2</span>
+                        </div>
+                        <ul id="captain2List" class="list-inside">
+                            @Model.CreateRoomInputModel.Captains[1]
+                            <!-- Elements chosen by Captain 2 will appear here -->
+                        </ul>
+                    </div>
+
+                    <!-- Captain 3 -->
+                    <div class="team bg-white shadow-md rounded p-4">
+                        <div class="bg-gray-200 rounded-full w-16 h-16 flex items-center justify-center mb-4">
+                            <span class="text-lg font-bold">3</span>
+                        </div>
+                        <ul id="captain3List" class="list-inside">
+                            @Model.CreateRoomInputModel.Captains[2]
+                            <!-- Elements chosen by Captain 3 will appear here -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // JavaScript for interactive features
+            const topList = document.getElementById('topList');
+            const captain1List = document.getElementById('captain1List');
+            const captain2List = document.getElementById('captain2List');
+            const captain3List = document.getElementById('captain3List');
+
+            let currentCaptain = 1;
+            let i = 1;
+
+            topList.addEventListener('click', function (event) {
+                if (event.target.tagName === 'LI') {
+
+
+                    const element = event.target;
+                    //const orderOfChosing = "123321123321";
+                    const orderOfChosing = "@Model.PickOrder";
+
+                    // Show confirmation dialog
+                    const playerName = element.textContent.trim(); // Get the name
+                    const confirmed = confirm("Esti 100% sigur ca il vrei pe " + playerName + "?");
+                    if (!confirmed) {
+                        return; // Exit if user cancels
+                    }
+
+                    switch (currentCaptain) {
+                        case 1:
+                            captain1List.appendChild(element.cloneNode(true));
+                            var orderIntValue = parseInt(orderOfChosing.charAt(i), 10);
+                            i++;
+                            currentCaptain = orderIntValue;
+                            break;
+                        case 2:
+                            captain2List.appendChild(element.cloneNode(true));
+                            var orderIntValue = parseInt(orderOfChosing.charAt(i), 10);
+                            i++;
+                            currentCaptain = orderIntValue;
+                            break;
+                        case 3:
+                            captain3List.appendChild(element.cloneNode(true));
+                            var orderIntValue = parseInt(orderOfChosing.charAt(i), 10);
+                            i++;
+                            currentCaptain = orderIntValue;
+                            break;
+                    }
+                    element.parentNode.removeChild(element);
+                }
+            });
+        </script>
+
+
     </div>
 </div>
-
-
-<script>
-    var user = '@Model.PlayerName'
-    var sessionId = '@Model.SessionId'
-</script>
 
 <script>
     window.addEventListener('beforeunload', function (e) {

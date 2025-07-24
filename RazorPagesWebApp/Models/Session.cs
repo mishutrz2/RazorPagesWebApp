@@ -2,8 +2,6 @@
 {
     public class Session
     {
-        public Guid RoomId { get; set; }
-
         public DateTime CreationTime { get; } = DateTime.UtcNow;
 
         public CreateRoomInputModel CreateRoomInputModel { get; set; }
@@ -17,25 +15,5 @@
         public List<string> TeamTwo { get; set; } = new List<string>(); // Team 2
 
         public List<string> TeamThree { get; set; } = new List<string>(); // Team 3
-
-        public bool AddPlayer(string playerName)
-        {
-            if (!Players.Contains(playerName))
-            {
-                Players.Add(playerName);
-                return true;
-            }
-            return false; // Player already exists
-        }
-
-        public bool AddCaptain(string captainName)
-        {
-            if (!Captains.Contains(captainName))
-            {
-                Captains.Add(captainName);
-                return true;
-            }
-            return false; // Captain already exists
-        }
     }
 }

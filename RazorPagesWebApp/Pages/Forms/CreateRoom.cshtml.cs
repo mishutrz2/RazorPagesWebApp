@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using RazorPagesWebApp.Models;
 using RazorPagesWebApp.Services;
-using RazorPagesWebApp.Services.Interfaces;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 using System.Xml.Linq;
 
 namespace RazorPagesWebApp.Pages.Forms
@@ -23,14 +23,8 @@ namespace RazorPagesWebApp.Pages.Forms
         [BindProperty]
         public bool RandomizeCaptainsOrder { get; set; } = true;
 
-        [BindProperty]
-        public Guid SessionId { get; set; } // Property to store the session ID
-
-        protected readonly ISessionService _sessionService;
-
-        public CreateRoomModel(ISessionService sessionService)
+        public CreateRoomModel()
         {
-            _sessionService = sessionService;
         }
 
         public void OnGet()
@@ -55,12 +49,13 @@ namespace RazorPagesWebApp.Pages.Forms
                     .ToList();
             }
 
-            Guid newRoomId = Guid.NewGuid();
+            TempData["CreateRoomInputModel"] = JsonSerializer.Serialize(createRoomInputModel);
 
-            SessionId =_sessionService.CreateSession(newRoomId, createRoomInputModel).RoomId;
-
-            //return RedirectToPage("/RoomCreated", new { roomId = SessionId });
-            return RedirectToPage("/GameRoom/Index", new { SessionId = SessionId, PlayerName = createRoomInputModel.PickOrder });
+            return RedirectToPage("/GameRoom/Index",
+                new {
+                    SessionId = Guid.NewGuid().ToString(),
+                    PickOrder = createRoomInputModel.PickOrder
+                });
 
         }
     }
