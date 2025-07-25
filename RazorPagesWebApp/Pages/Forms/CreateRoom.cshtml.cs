@@ -38,6 +38,12 @@ namespace RazorPagesWebApp.Pages.Forms
 
             CreateRoomInputModel createRoomInputModel = UserInputService.PopulateCreateRoomInputModel(InputList, PickOrder);
 
+            if (createRoomInputModel.Captains.Any(x => x == ""))
+            {
+                createRoomInputModel.PickOrder = "123" + PickOrder;
+            }
+
+
             TempData["CreateRoomInputModel"] = JsonSerializer.Serialize(createRoomInputModel);
 
             return RedirectToPage("/GameRoom/Index",

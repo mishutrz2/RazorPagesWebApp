@@ -29,6 +29,11 @@ namespace RazorPagesWebApp.Pages.GameRoom
                 CreateRoomInputModel = JsonSerializer.Deserialize<CreateRoomInputModel>(modelJson);
             }
 
+            if (CreateRoomInputModel.Captains.Count != 0 && CreateRoomInputModel.Captains.Count != 3)
+            {
+                return RedirectToPage("/Forms/CreateRoom"); // Redirect to the form if error with captains setup
+            }
+
             return Page();
         }
     }
