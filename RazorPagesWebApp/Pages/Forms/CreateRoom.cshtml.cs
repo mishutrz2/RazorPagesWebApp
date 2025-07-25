@@ -18,7 +18,7 @@ namespace RazorPagesWebApp.Pages.Forms
 
         [BindProperty]
         [Required(ErrorMessage = "The pick order is required")]
-        public string PickOrder { get; set; } = "123312123123";
+        public string PickOrder { get; set; } = "123123312123123";
 
         public CreateRoomModel()
         {
@@ -36,7 +36,7 @@ namespace RazorPagesWebApp.Pages.Forms
                 return Page();
             }
 
-            CreateRoomInputModel createRoomInputModel = UserInputService.PopulateCreateRoomInputModel(InputList, PickOrder);
+            CreateRoomInputModel createRoomInputModel = UserInputService.PopulateCreateRoomInputModel(InputList, PickOrder.Replace(" ", ""));
 
             TempData["CreateRoomInputModel"] = JsonSerializer.Serialize(createRoomInputModel);
 
