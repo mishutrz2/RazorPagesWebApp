@@ -20,9 +20,6 @@ namespace RazorPagesWebApp.Pages.Forms
         [Required(ErrorMessage = "The pick order is required")]
         public string PickOrder { get; set; } = "123312123123";
 
-        [BindProperty]
-        public bool RandomizeCaptainsOrder { get; set; } = true;
-
         public CreateRoomModel()
         {
         }
@@ -36,18 +33,10 @@ namespace RazorPagesWebApp.Pages.Forms
         {
             if (!ModelState.IsValid)
             {
-                return Page(); // Or return another IActionResult to handle the invalid state
+                return Page();
             }
 
             CreateRoomInputModel createRoomInputModel = UserInputService.PopulateCreateRoomInputModel(InputList, PickOrder);
-
-            if (RandomizeCaptainsOrder)
-            {
-                var rng = new Random();
-                createRoomInputModel.Captains = createRoomInputModel.Captains
-                    .OrderBy(x => rng.Next())
-                    .ToList();
-            }
 
             TempData["CreateRoomInputModel"] = JsonSerializer.Serialize(createRoomInputModel);
 

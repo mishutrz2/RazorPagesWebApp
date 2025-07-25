@@ -12,8 +12,6 @@ namespace RazorPagesWebApp.Pages.GameRoom
 
         public CreateRoomInputModel CreateRoomInputModel { get; set; }
 
-        private bool hasBeenAccessed = false;
-
         public IndexModel()
         {
             
@@ -24,7 +22,7 @@ namespace RazorPagesWebApp.Pages.GameRoom
 
             if (!(TempData["CreateRoomInputModel"] is string modelJson))
             {
-                return RedirectToPage("/Forms/CreateRoom"); // Redirect to the form if TempData is empty
+                return RedirectToPage("/Forms/CreateRoom"); // Redirect to the form if TempData updated
             }
             else
             {
